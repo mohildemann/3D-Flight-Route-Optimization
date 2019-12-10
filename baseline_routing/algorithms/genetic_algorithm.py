@@ -38,7 +38,7 @@ class GeneticAlgorithm(RandomSearch):
             lgr = logging.getLogger(t)
             lgr.setLevel(logging.DEBUG)  # log all escalated at and above DEBUG
             # add a file handler
-            fh = logging.FileHandler(r'LogFiles/' + t + '.csv')
+            fh = logging.FileHandler(r'baseline_routing/log_files/' + t + '.csv')
             fh.setLevel(logging.DEBUG)
             frmt = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(message)s')
             fh.setFormatter(frmt)
@@ -116,7 +116,7 @@ class GeneticAlgorithm(RandomSearch):
                 self._verbose_reporter_inner(self.elite, iteration)
 
             if log:
-                log_event = [iteration, self.elite[0].fitness[0], self.elite[1].fitness[1], self.elite[2].fitness[2],
+                log_event = [iteration,self.elite[0].PointFCName, self.elite[0].fitness[0],self.elite[1].PointFCName, self.elite[1].fitness[1],self.elite[2].PointFCName, self.elite[2].fitness[2],
                              self.population_size, self.selection.__name__, self.crossover.__name__, self.p_c,
                              self.mutation.__name__, self.p_m, self._phenotypic_diversity_shift(offsprings)]
                 lgr.info(','.join(list(map(str, log_event))))
