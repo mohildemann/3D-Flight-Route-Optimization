@@ -15,7 +15,273 @@ import sys
 import utils as uls
 import math
 
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import interpolate
+from mpl_toolkits.mplot3d import Axes3D
 
+
+
+
+
+
+solution_1 = Solution([1,2,3])
+solution_1.fitness = [10,20,33]
+solution_2 = Solution([1,2,633])
+solution_2.fitness = [33,15,100]
+solution_3 = Solution([1,2,3])
+solution_3.fitness = [5,7,9]
+solution_4 = Solution([1,2,3])
+solution_4.fitness = [10,5,8]
+solution_5 = Solution([1,2,3])
+solution_5.fitness = [2,2,2]
+solution_6 = Solution([1,2,3])
+solution_6.fitness = [3,9,9]
+solution_7 = Solution([1,2,3])
+solution_7.fitness = [9,7,8]
+solution_8 = Solution([1,2,3])
+solution_8.fitness = [10,7,6]
+solution_9 = Solution([1,2,3])
+solution_9.fitness = [11,7,5]
+
+solution_10 = Solution([1,2,3])
+solution_10.fitness = [66.91225970788894, 164.26189117226426, 4.351987548842328]
+solution_11 = Solution([1,2,3])
+solution_11.fitness = [64.35948970384028, 161.99029848661064, 4.391569125239813]
+solution_12 = Solution([1,2,3])
+solution_12.fitness = [69.78150590151472, 167.887226650484, 4.357979430257563]
+solution_13 = Solution([1,2,3])
+solution_13.fitness = [71.40129563343368, 175.66425826449972, 4.366203944485867]
+solution_14 = Solution([1,2,3])
+solution_14.fitness = [64.86894512352669, 162.2999476194521, 4.132931235453061]
+solution_15 = Solution([1,2,3])
+solution_15.fitness = [65.31830582019269, 158.17878726376193, 4.39624317009483]
+#population = [solution_1,solution_2,solution_3,solution_4,solution_5,solution_6,solution_7,solution_8,solution_9]
+population = [solution_10,solution_11,solution_12,solution_13,solution_14,solution_15]
+
+
+def nsga(population,population_size, offsprings):
+    population= population + offsprings
+    non_dominated_sort(population)
+    crowding_distance(population)
+    accepted_solutions = []
+    lowest_rank = 0
+    # find lowest possible rank
+    for solution in population:
+        if solution.rank > lowest_rank:
+            lowest_rank = solution.rank
+    # append solutions with highest ranks to accepted solutions until the population_size is reached
+    for r in range(lowest_rank):
+        for solution in population:
+            if solution.rank == r:
+                accepted_solutions.append(solution)
+        # if more accepted solutions exist than the population size allows, remove the solutions of lowest rank with lowest crowding distance
+        if len(accepted_solutions) > population_size:
+            accepted_solutions = np.array(accepted_solutions)
+            reevalution_on_crowding_distance = []
+            for sol in accepted_solutions:
+                if sol.rank == r:
+                    reevalution_on_crowding_distance.append(sol)
+            crowding_distance(reevalution_on_crowding_distance)
+            sorting_list = []
+            for sol in reevalution_on_crowding_distance:
+                sorting_list.append([sol.crowding_distance, sol])
+            sorting_list = np.array(sorting_list)
+            while accepted_solutions.shape[0] > population_size:
+                lowest_crowding_distance = np.argmin(sorting_list[:,0])
+                pos_to_delete_sorting_list = np.where(sorting_list[:,0] == sorting_list[np.argmin(sorting_list[:,0])][0])[0][0]
+                pos_to_delete_accepted_list = np.where(accepted_solutions == sorting_list[pos_to_delete_sorting_list][1])[0][0]
+                sorting_list = np.delete(sorting_list, pos_to_delete_sorting_list,0)
+                accepted_solutions = np.delete(accepted_solutions, pos_to_delete_accepted_list,0)
+            accepted_solutions = accepted_solutions.tolist()
+            break
+        elif len(accepted_solutions) == population_size:
+            break
+    return accepted_solutions
+
+
+
+
+def crowding_distance(population):
+    crowding_distance_f1 = []
+    crowding_distance_f2 = []
+    crowding_distance_f3 = []
+    for solution in population:
+        crowding_distance_f1.append([solution, solution.fitness[0]])
+        crowding_distance_f2.append([solution, solution.fitness[1]])
+        crowding_distance_f3.append([solution, solution.fitness[2]])
+
+    #convert all to numpy arrays (more convenient)
+    crowding_distance_f1 = np.array(crowding_distance_f1)
+    crowding_distance_f2 = np.array(crowding_distance_f2)
+    crowding_distance_f3 = np.array(crowding_distance_f3)
+
+    #sort by fitness
+    crowding_distance_f1 = crowding_distance_f1[crowding_distance_f1[:, 1].argsort(kind='mergesort')]
+    crowding_distance_f2 = crowding_distance_f2[crowding_distance_f2[:, 1].argsort(kind='mergesort')]
+    crowding_distance_f3 = crowding_distance_f3[crowding_distance_f3[:, 1].argsort(kind='mergesort')]
+
+
+    for i in range(0, len(population)):
+        population[i].crowding_distance = [0,0,0]
+        pos_f1 = np.where(population[i] == crowding_distance_f1[:,0])
+        pos_f2 = np.where(population[i] == crowding_distance_f2[:,0])
+        pos_f3 = np.where(population[i] == crowding_distance_f3[:,0])
+
+        #calculate crowding distance for first objective
+        if pos_f1[0][0] == 0 or pos_f1[0][0] == len(population)-1:
+            population[i].crowding_distance[0] = int(sys.float_info.max)/3
+        else:
+            #calculate normalized crowding distance
+            population[i].crowding_distance[0] = (crowding_distance_f1[pos_f1[0][0]+1][1] -crowding_distance_f1[pos_f1[0][0]-1][1])/(np.argmax(crowding_distance_f1[:, 1])-np.argmin(crowding_distance_f1[:, 1]))
+
+        # calculate crowding distance for second objective
+        if pos_f2[0][0] == 0 or pos_f2[0][0] == len(population)-1:
+            population[i].crowding_distance[1] = int(sys.float_info.max)/3
+        else:
+            #calculate normalized crowding distance
+            population[i].crowding_distance[1] = (crowding_distance_f2[pos_f2[0][0]+1][1] -crowding_distance_f2[pos_f2[0][0]-1][1])/(np.argmax(crowding_distance_f2[:, 1])-np.argmin(crowding_distance_f2[:, 1]))
+
+        # calculate crowding distance for third objective
+        if pos_f3[0][0] == 0 or pos_f3[0][0] == len(population)-1:
+            population[i].crowding_distance[2] = int(sys.float_info.max)/3
+        else:
+            #calculate normalized crowding distance
+            population[i].crowding_distance[2] = (crowding_distance_f3[pos_f3[0][0]+1][1] -crowding_distance_f3[pos_f3[0][0]-1][1])/(np.argmax(crowding_distance_f3[:, 1])-np.argmin(crowding_distance_f3[:, 1]))
+
+    for solution in population:
+        solution.crowding_distance = sum(solution.crowding_distance)
+    print()
+
+
+
+
+
+
+def non_dominated_sort(population):
+    #domination_count: number of solutions which dominate the solution
+    #set_of_dominated_solutions: a set of solutions that the solution dominates
+    # a solution A dominated another solution B if:
+    # solution A is not worse than x2 in all objectives
+    # solution A is better than solution B in at least one objective
+    non_dominated_front = []
+    pareto_fronts = []
+    for solutionA in population:
+        solutionA.domination_count = 0
+        solutionA.set_of_dominated_solutions = []
+        for solutionB in population:
+            solutionA_dominates_solutionB = False
+            solutionA_not_worse_than_SolutionB_in_all_objectives = True
+            solutionA_better_than_SolutionB_in_one_objective = False
+
+            #check if solution A dominates solution B
+            for fitness_index in range(len(solutionA.fitness)):
+                if solutionB.fitness[fitness_index] < solutionA.fitness[fitness_index]:
+                    solutionA_not_worse_than_SolutionB_in_all_objectives = False
+                elif solutionA.fitness[fitness_index] < solutionB.fitness[fitness_index]:
+                    solutionA_better_than_SolutionB_in_one_objective = True
+            if solutionA_not_worse_than_SolutionB_in_all_objectives is True and solutionA_better_than_SolutionB_in_one_objective is True:
+                solutionA_dominates_solutionB = True
+                solutionA.set_of_dominated_solutions.append(solutionB)
+
+            # if B not dominated, check if solution B dominates solution A
+            if solutionA_dominates_solutionB is False:
+                solutionB_dominates_solutionA = False
+                solutionB_not_worse_than_SolutionA_in_all_objectives = True
+                solutionB_better_than_SolutionA_in_one_objective = False
+                for fitness_index in range(len(solutionA.fitness)):
+                    if solutionA.fitness[fitness_index] < solutionB.fitness[fitness_index]:
+                        solutionB_not_worse_than_SolutionA_in_all_objectives = False
+                    elif solutionB.fitness[fitness_index] < solutionA.fitness[fitness_index]:
+                        solutionB_better_than_SolutionA_in_one_objective = True
+                if solutionB_not_worse_than_SolutionA_in_all_objectives is True and solutionB_better_than_SolutionA_in_one_objective is True:
+                    solutionB_dominates_solutionA = True
+                    solutionA.domination_count += 1
+
+        if solutionA.domination_count == 0:
+            solutionA.rank = 1
+            non_dominated_front.append(solutionA)
+    pareto_fronts.append([0,non_dominated_front])
+
+
+    for i in range(len(population)-1):
+        current_domination_front = []
+        for dominating_solution in pareto_fronts[i][1]:
+
+            if len(dominating_solution.set_of_dominated_solutions) >0:
+
+                for dominated_solution in dominating_solution.set_of_dominated_solutions:
+                    dominated_solution.domination_count -= 1
+                    if dominated_solution.domination_count == 0:
+                        current_domination_front.append(dominated_solution)
+                        dominated_solution.rank = i + 2
+        if len(current_domination_front) == 0:
+            break
+        else:
+            pareto_fronts.append([i+1,current_domination_front])
+    return pareto_fronts
+
+t = non_dominated_sort(population)
+t= np.array(t)
+paretofront_1 = []
+for i in t[0][1]:
+    paretofront_1.append(i.fitness)
+paretofront_1 =  np.array(paretofront_1)
+t2 = paretofront_1[:][0]
+print(paretofront_1[0])
+
+
+
+t=nsga(population[:4],4,population[4:])
+
+
+
+x = np.random.uniform(0.2,0.9,100)
+y = np.random.uniform(0.4,0.6,100)
+z = np.random.uniform(0.1,0.4,100)
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+#x =[1,2,3,4,5,6,7,8,9,10]
+##y =[5,6,2,3,13,4,1,2,4,8]
+#z =[2,3,3,3,5,7,9,11,9,10]
+
+
+
+ax.scatter(x, y, z, c='r', marker='o')
+
+ax.set_xlabel('Objective 1')
+ax.set_ylabel('Objective 2')
+ax.set_zlabel('Objective 3')
+
+plt.show()
+print()
+
+
+
+
+
+
+
+
+
+
+
+
+x = np.arange(0, 2*np.pi+np.pi/4, 2*np.pi/8)
+y = np.sin(x)
+tck = interpolate.splrep(x, y, s=0)
+xnew = np.arange(0, 2*np.pi, np.pi/50)
+ynew = interpolate.splev(xnew, tck, der=0)
+
+plt.figure()
+plt.plot(x, y, 'x', xnew, ynew, xnew, np.sin(xnew), x, y, 'b')
+plt.legend(['Linear', 'Cubic Spline', 'True'])
+plt.axis([-0.05, 6.33, -1.05, 1.05])
+plt.title('Cubic-spline interpolation')
+plt.show()
 
 # near_features = solution_fc
 # tables = arcpy.ListTables()
@@ -613,7 +879,10 @@ def non_dominated_sort(population):
         else:
             pareto_fronts.append([i+1,current_domination_front])
     return pareto_fronts
+
+
 nsga(population[:4],4,population[4:])
+
 
 
 

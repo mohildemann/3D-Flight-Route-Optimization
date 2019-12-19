@@ -46,7 +46,7 @@ def main():
     hover_energy = 187 # (in kW)
     noise_pressure_acceleration = 100
     noise_pressure_deceleration = 100
-    noise_at_cruise = 50
+    noise_at_cruise = 100
     noise_at_hover = 100
     # flight comfort constraint
     maximum_angular_speed = 1  # (in radian/second)
@@ -76,18 +76,18 @@ def main():
                                    IDW=idw, noisemap = noise_map, x_y_limits= 400, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
                                    sample_point_distance="350 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
     # setup Genetic Algorithm
-    p_c = 0.7
-    p_m = 0.5
-    n_iterations = 100
+    p_c = 0.5
+    p_m = 0.3
+    n_iterations = 30
     for seed in range(1):
         # setup random state
         random_state = uls.get_random_state(seed)
         # execute Genetic Algorithm
         ga1 = GeneticAlgorithm(problem_instance=problem_instance, random_state=random_state,
-                               population_size=10, selection=uls.nsga_parametrized_tournament_selection(.3),
-                               crossover=uls.n_point_crossover(4), p_c=p_c,
-                               mutation=uls.parametrized_point_mutation(percentage_disturbed_chromosomes = 0.3, max_disturbance_distance = 20,
-                                                                        percentage_inserted_and_deleted_chromosomes = 0.3, group_size=5), p_m=p_m, aimed_point_amount_factor = 2)
+                               population_size=10, selection=uls.nsga_parametrized_tournament_selection(0.3),
+                               crossover=uls.n_point_crossover(3), p_c=p_c,
+                               mutation=uls.parametrized_point_mutation(percentage_disturbed_chromosomes = p_m, max_disturbance_distance = 120,
+                                                                        percentage_inserted_and_deleted_chromosomes = p_m, group_size=5), p_m=p_m, aimed_point_amount_factor = 1)
         ga1.initialize()
         ga1.search(n_iterations=n_iterations, report=True, log=True, dplot=None)
 

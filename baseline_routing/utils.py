@@ -462,7 +462,12 @@ def point3d_fc_to_np_array(point_fc_name, additional_fields = None):
         len(x_y_z_array), len(fields))
     return  x_y_z_array
 
-def calculate_speed_limits(flight_points_x_y_z_array, maximum_angular_speed,maximum_speed_air_taxi, maximum_speed_legal):
+def calculate_max_speed_for_given_radius_and_max_g_force(max_g_force, radius):
+    #calculate maximal velocity for given maximum gforce and given radius
+    vmax = math.sqrt(max_g_force*radius*9.81)
+    return vmax
+
+def calculate_speed_limits(flight_points_x_y_z_array, maximum_angular_speed,max_g_force,maximum_speed_air_taxi, maximum_speed_legal):
     speed_limit_list = []
     #speed limit starting point is 0
     speed_limit_list.append(0)
@@ -473,6 +478,7 @@ def calculate_speed_limits(flight_points_x_y_z_array, maximum_angular_speed,maxi
         if np.isnan(radius):
             nan_values.append(i)
             radius = sys.float_info.max
+        velocity_limit_by_max_g_force = calculate_max_speed_for_given_radius_and_max_g_force(max_g_force,radius)
         velocity_limit_by_angular_speed = maximum_angular_speed * radius
         maxv_by_angular_speed.append(velocity_limit_by_angular_speed)
         speed_limit_list.append(min(velocity_limit_by_angular_speed,maximum_speed_air_taxi, maximum_speed_legal))
@@ -531,20 +537,20 @@ def calculate_speed_and_energy_consumption(flight_points_x_y_z_maxv, flight_cons
         distance = get_distance_between_points(flight_points_x_y_z_maxv[i],flight_points_x_y_z_maxv[i+1])
         array_distance_to_next_point.append(distance)
         #check if we can accelerate at the current point because allowed speed of next point is higher:
-        if flight_points_x_y_z_maxv[i+1][3] > array_current_velocity[-1]:
+        if flight_points_x_y_z_maxv[i+1][4] > array_current_velocity[-1]:
             #accelerate with given acceleration speed
             time = get_time_for_evenly_accelerated_movement_w_given_distance(distance, flight_constraints.acceleration_speed)
             velocity = get_velocity_after_given_distance_w_given_acceleration(array_current_velocity[-1], distance, flight_constraints.acceleration_speed)
             # check if possible reached speed after acceleration is higher then max allowed speed at current position
-            if velocity > flight_points_x_y_z_maxv[i+1][3]:
-                velocity = flight_points_x_y_z_maxv[i+1][3]
+            if velocity > flight_points_x_y_z_maxv[i+1][4]:
+                velocity = flight_points_x_y_z_maxv[i+1][4]
             array_current_velocity.append(velocity)
             #calculate the energy consumption for the needed time for accelerating between last point to current point
             energy_consumed_in_kWh = flight_constraints.acceleration_energy * (time/3600)
             array_current_energy_consumption.append(energy_consumed_in_kWh)
             array_current_noise.append(flight_constraints.noise_pressure_acceleration)
 
-        elif flight_points_x_y_z_maxv[i+1][3] == array_current_velocity[-1] and flight_points_x_y_z_maxv[i+1][3] == np.amax(flight_points_x_y_z_maxv[:,3]):
+        elif flight_points_x_y_z_maxv[i+1][4] == array_current_velocity[-1] and flight_points_x_y_z_maxv[i+1][4] == np.amax(flight_points_x_y_z_maxv[:,4]):
             array_current_velocity.append(array_current_velocity[-1])
             #fly at current speed
             angle_of_climb = calc_angle_of_climb(flight_points_x_y_z_maxv[i], flight_points_x_y_z_maxv[i+1])
@@ -562,11 +568,11 @@ def calculate_speed_and_energy_consumption(flight_points_x_y_z_maxv, flight_cons
         else:
             #allowed speed at next point is lower then current speed
             #decelerate with given deceleration speed. calculate distance which is needed for decelerating for the speed delta. Find previous point where that distance is reached. Update the velocities for this point range.
-            needed_distance_for_deceleration =  get_distance_needed_for_given_acceleration_or_deceleration(array_current_velocity[-1],flight_points_x_y_z_maxv[i+1][3],flight_constraints.deceleration_speed)
+            needed_distance_for_deceleration =  get_distance_needed_for_given_acceleration_or_deceleration(array_current_velocity[-1],flight_points_x_y_z_maxv[i+1][4],flight_constraints.deceleration_speed)
             update_distance = distance
 
             # add a value with the maximum allowed speed level at the next point and add the energy consumed by decelerating to it
-            array_current_velocity.append(get_velocity_after_given_distance_w_given_acceleration(flight_points_x_y_z_maxv[i+1][3], distance,
+            array_current_velocity.append(get_velocity_after_given_distance_w_given_acceleration(flight_points_x_y_z_maxv[i+1][4], distance,
                                                                        flight_constraints.deceleration_speed))
             try:
                 time = distance / array_current_velocity[-1]
@@ -992,10 +998,10 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
         array_point_boundary = array_point_boundary[:, [1,2,7,8]]
 
         #convert near table of intersection points to the two closest point boundary points into a numpy array
-        out_table_intersection_point = r"memory\NearTableIntersectionPointsToBoundaryPoints"
+        out_table_intersection_point = "NearTableIntersectionPointsToBoundaryPoints"
         arcpy.analysis.GenerateNearTable(intersection_points, boundary_points,
                                          out_table_intersection_point,
-                                         "100 Meters", "LOCATION", "NO_ANGLE", "ALL", 2, "PLANAR")
+                                         "200 Meters", "LOCATION", "NO_ANGLE", "ALL", 2, "PLANAR")
         array_point_intersection_point = arcpy.da.TableToNumPyArray(out_table_intersection_point,('*'))
         array_point_intersection_point = array_point_intersection_point.reshape(array_point_intersection_point.shape[0], 1)
         array_point_intersection_point = np.array([list(i[0]) for i in array_point_intersection_point])
@@ -1003,7 +1009,10 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
         pointid_nearest_to_first_intersection_point = array_point_intersection_point[0,[2,7,8]]
         pointid_2ndnearest_to_first_intersection_point = array_point_intersection_point[1,[2,7,8]]
 
-        pointid_nearest_to_2nd_intersection_point = array_point_intersection_point[2,[2,7,8]]
+        try:
+            pointid_nearest_to_2nd_intersection_point = array_point_intersection_point[2,[2,7,8]]
+        except:
+            print()
         pointid_2ndnearest_to_2nd_intersection_point = array_point_intersection_point[3,[2,7,8]]
 
         #"walk" in both directions of the geofence point boundary. stop if second intersection point is met.
@@ -1082,7 +1091,7 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
                                                 '"OBJECTID" IN ({0})'.format(', '.join(map(str, [i+1, i+2]))))
         # arcpy.CopyFeatures_management(Selected_Intersection_points,
         #                               r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testintpoints"+str(_counter))
-        matchcount = int(arcpy.GetCount_management(Selected_Intersection_points)[0])
+        matchcountIntersection_points = int(arcpy.GetCount_management(Selected_Intersection_points)[0])
         Selected_geofences = arcpy.management.SelectLayerByLocation(geofences, "WITHIN_A_DISTANCE_GEODESIC",
                                                Selected_Intersection_points, "20 Meters", "NEW_SELECTION", "NOT_INVERT")
         # arcpy.CopyFeatures_management(Selected_geofences,
@@ -1094,33 +1103,34 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
 
         #select the two corresponding intersection points
         points_to_insert = find_shortest_way_between_intersection_points(r"memory\bound_p_" + str(_counter), Selected_Intersection_points)
-        create_xy_FCFromPoints(points_to_insert[:,1], points_to_insert[:,2], r"memory\selected_boundary_points")
+        if points_to_insert is not None:
+            create_xy_FCFromPoints(points_to_insert[:,1], points_to_insert[:,2], r"memory\selected_boundary_points")
 
-        #insert the points of the geofence point boundary which are the nearest to the output points
-        # positioned exactly on the geofence boundary (which lie 10 meters outside of the geofence)
-        #generate near table to the point boundary which is 1o meters away from the geofence
-        out_table_point_boundary = r"memory\NearGeofenceBoundaryPoints"
-        arcpy.analysis.GenerateNearTable(r"memory\selected_boundary_points", geofence_point_boundary,
-                                         out_table_point_boundary,
-                                         "50 Meters", "NO_LOCATION", "NO_ANGLE", "ALL", 1, "PLANAR")
-        # convert self join near table of the point boundary points into a numpy array. Saves the two neighbor points of each point.
-        array_point_boundary = arcpy.da.TableToNumPyArray(out_table_point_boundary, ('*'))
-        array_point_boundary = array_point_boundary.reshape(array_point_boundary.shape[0], 1)
-        array_point_boundary = np.array([list(i[0]) for i in array_point_boundary])
-        #get the index of the point boundaries
-        array_point_boundary = array_point_boundary[:, 2]
-        array_point_boundary = array_point_boundary.astype(int)
-        Selected_geofence_boundary_points = arcpy.SelectLayerByAttribute_management(geofence_point_boundary, "ADD_TO_SELECTION",
-                                                                               '"OBJECTID" IN ({0})'.format(', '.join(
-                                                                                   map(str, array_point_boundary))))
-        #arcpy.CopyFeatures_management(Selected_geofence_boundary_points, r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testpoints")
-        matchcount_boundary_points = int(arcpy.GetCount_management(Selected_geofence_boundary_points)[0])
+            #insert the points of the geofence point boundary which are the nearest to the output points
+            # positioned exactly on the geofence boundary (which lie 10 meters outside of the geofence)
+            #generate near table to the point boundary which is 1o meters away from the geofence
+            out_table_point_boundary = r"memory\NearGeofenceBoundaryPoints"
+            arcpy.analysis.GenerateNearTable(r"memory\selected_boundary_points", geofence_point_boundary,
+                                             out_table_point_boundary,
+                                             "50 Meters", "NO_LOCATION", "NO_ANGLE", "ALL", 1, "PLANAR")
+            # convert self join near table of the point boundary points into a numpy array. Saves the two neighbor points of each point.
+            array_point_boundary = arcpy.da.TableToNumPyArray(out_table_point_boundary, ('*'))
+            array_point_boundary = array_point_boundary.reshape(array_point_boundary.shape[0], 1)
+            array_point_boundary = np.array([list(i[0]) for i in array_point_boundary])
+            #get the index of the point boundaries
+            array_point_boundary = array_point_boundary[:, 2]
+            array_point_boundary = array_point_boundary.astype(int)
+            Selected_geofence_boundary_points = arcpy.SelectLayerByAttribute_management(geofence_point_boundary, "ADD_TO_SELECTION",
+                                                                                   '"OBJECTID" IN ({0})'.format(', '.join(
+                                                                                       map(str, array_point_boundary))))
+            #arcpy.CopyFeatures_management(Selected_geofence_boundary_points, r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testpoints")
+            matchcount_boundary_points = int(arcpy.GetCount_management(Selected_geofence_boundary_points)[0])
 
-        arcpy.Append_management([Selected_geofence_boundary_points],"selected_boundary_points")
+            arcpy.Append_management([Selected_geofence_boundary_points],"selected_boundary_points")
 
-        arcpy.SelectLayerByAttribute_management(Selected_Intersection_points, "CLEAR_SELECTION")
-        arcpy.SelectLayerByAttribute_management(Selected_geofences, "CLEAR_SELECTION")
-        arcpy.SelectLayerByAttribute_management(Selected_geofence_boundary_points, "CLEAR_SELECTION")
+            arcpy.SelectLayerByAttribute_management(Selected_Intersection_points, "CLEAR_SELECTION")
+            arcpy.SelectLayerByAttribute_management(Selected_geofences, "CLEAR_SELECTION")
+            arcpy.SelectLayerByAttribute_management(Selected_geofence_boundary_points, "CLEAR_SELECTION")
 
     # selection_for_deletion = arcpy.management.SelectLayerByLocation("selected_boundary_points",
     #                                                                 "WITHIN", geofences, None,
@@ -1520,10 +1530,15 @@ def rastrigin(point):
 
 def multi_objective_NSGA_fitness_evaluation():
     def fitness_evaluation(problem_instance, solution):
-        sol_rep_w_speed_limits = calculate_speed_limits(solution.placeholder_representation[:,1:5],problem_instance.flight_constraints.maximum_angular_speed,problem_instance.flight_constraints.maximum_speed_air_taxi,
+        sol_rep_w_speed_limits = calculate_speed_limits(solution.placeholder_representation[:,1:5],problem_instance.flight_constraints.maximum_angular_speed,3,problem_instance.flight_constraints.maximum_speed_air_taxi,
                                problem_instance.flight_constraints.maximum_speed_legal)
         array_distances, array_velocities, array_energy_consumptions, array_noises, total_energy_consumption, flight_time = calculate_speed_and_energy_consumption(sol_rep_w_speed_limits,problem_instance.flight_constraints)
         avg_added_noise = calculate_added_noise(solution.placeholder_representation, array_noises, solution.placeholder_representation[:,5])
+
+        # pd.DataFrame(np.array(array_velocities)).to_csv(r"D:\Master_Shareverzeichnis\Masterthesis\Ergebnisse\velocities.csv")
+        # pd.DataFrame(np.array(array_energy_consumptions)).to_csv(r"D:\Master_Shareverzeichnis\Masterthesis\Ergebnisse\energie.csv")
+        # pd.DataFrame(np.array(array_noises)).to_csv(r"D:\Master_Shareverzeichnis\Masterthesis\Ergebnisse\noisearray.csv")
+
         return [flight_time, total_energy_consumption, avg_added_noise]
     return fitness_evaluation
 

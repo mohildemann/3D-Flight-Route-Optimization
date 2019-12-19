@@ -194,12 +194,15 @@ class GeneticAlgorithm(RandomSearch):
                 sorting_list = np.array(sorting_list)
                 while accepted_solutions.shape[0] > self.population_size:
                     lowest_crowding_distance = np.argmin(sorting_list[:, 0])
-                    pos_to_delete_sorting_list = \
-                    np.where(sorting_list[:, 0] == sorting_list[np.argmin(sorting_list[:, 0])][0])[0][0]
-                    pos_to_delete_accepted_list = \
-                    np.where(accepted_solutions == sorting_list[pos_to_delete_sorting_list][1])[0][0]
-                    sorting_list = np.delete(sorting_list, pos_to_delete_sorting_list, 0)
-                    accepted_solutions = np.delete(accepted_solutions, pos_to_delete_accepted_list, 0)
+                    try:
+                        pos_to_delete_sorting_list = \
+                        np.where(sorting_list[:, 0] == sorting_list[np.argmin(sorting_list[:, 0])][0])[0][0]
+                        pos_to_delete_accepted_list = \
+                        np.where(accepted_solutions == sorting_list[pos_to_delete_sorting_list][1])[0][0]
+                        sorting_list = np.delete(sorting_list, pos_to_delete_sorting_list, 0)
+                        accepted_solutions = np.delete(accepted_solutions, pos_to_delete_accepted_list, 0)
+                    except:
+                        print()
                 accepted_solutions = accepted_solutions.tolist()
                 break
             elif len(accepted_solutions) == self.population_size:

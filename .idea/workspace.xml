@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4af438c-4c04-46a4-8f83-3d6a896a970e" name="Default Changelist" comment="" />
+    <list default="true" id="f4af438c-4c04-46a4-8f83-3d6a896a970e" name="Default Changelist" comment="multi objective fitness evaluation done with logging">
+      <change afterPath="D:/Master_Shareverzeichnis/Masterthesis/Git_3D_Routing/Masterthesis_3D_Routing" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_routing/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseline_routing/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_routing/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseline_routing/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_routing/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseline_routing/utils.py" afterDir="false" />
+      <change beforePath="D:/Master_Shareverzeichnis/Masterthesis/Git_3D_Routing/_windows/laf.xml" beforeDir="false" />
+      <change beforePath="D:/Master_Shareverzeichnis/Masterthesis/Git_3D_Routing/codestyles/Default.xml" beforeDir="false" />
+      <change beforePath="D:/Master_Shareverzeichnis/Masterthesis/Git_3D_Routing/debugger.xml" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,29 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="1179" column="19" selection-start-line="1179" selection-start-column="19" selection-end-line="1179" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/geoprocessing/_base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="505" selection-start-line="505" selection-end-line="505" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baseline_routing/tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="207" column="40" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
+            <state relative-caret-position="19227">
+              <caret line="1144" selection-start-line="1144" selection-end-line="1144" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -49,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3600">
-              <caret line="188" selection-start-line="188" selection-end-line="188" />
+            <state relative-caret-position="1938">
+              <caret line="122" selection-start-line="122" selection-end-line="122" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -59,19 +48,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/management.py">
+        <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/geoprocessing/_base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="4925" selection-start-line="4925" selection-end-line="4925" />
+            <state relative-caret-position="8568">
+              <caret line="505" selection-start-line="505" selection-end-line="505" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="91" column="16" lean-forward="true" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
+            <state relative-caret-position="256">
+              <caret line="86" column="49" selection-start-line="86" selection-start-column="49" selection-end-line="86" selection-end-column="49" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -79,11 +68,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-09_20_30_27.csv">
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="209">
+              <caret line="197" column="24" selection-start-line="197" selection-start-column="24" selection-end-line="197" selection-end-column="24" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -92,10 +93,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/search_algorithm.py">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="36" column="71" selection-start-line="36" selection-start-column="71" selection-end-line="36" selection-end-column="71" />
+            <state relative-caret-position="3774">
+              <caret line="230" selection-start-line="230" selection-end-line="230" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/solutions/solution.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="17" selection-end-column="78" />
             </state>
           </provider>
         </entry>
@@ -111,10 +124,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>arcpy.analysis.Near</find>
-      <find>distance</find>
-      <find>dupli</find>
-      <find>repair</find>
       <find>extractMu</find>
       <find>spline</find>
       <find>reind</find>
@@ -133,7 +142,6 @@
       <find>reindex</find>
       <find>hstack</find>
       <find>reorder</find>
-      <find>noise</find>
       <find>reorde</find>
       <find>something went wrong with reordering. Endpoint not included</find>
       <find>SelectLayerByLocation(geofences</find>
@@ -141,12 +149,17 @@
       <find>log</find>
       <find>repairLin</find>
       <find>delete_ol</find>
+      <find>energy</find>
+      <find>noise</find>
+      <find>sine</find>
+      <find>crossover</find>
+      <find>insertion</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="UPDATE_CHANGES_POLICY" value="SHELVE" />
     <option name="ROOT_SYNC" value="SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/baseline_routing/sharedVersion3DRouting" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -165,20 +178,19 @@
         <option value="$PROJECT_DIR$/baseline_routing/solutions/solution.py" />
         <option value="$APPLICATION_CONFIG_DIR$/pycharm64.exe.vmoptions" />
         <option value="$PROJECT_DIR$/baseline_routing/algorithms/random_search.py" />
-        <option value="$PROJECT_DIR$/baseline_routing/tests.py" />
         <option value="$PROJECT_DIR$/baseline_routing/algorithms/search_algorithm.py" />
-        <option value="$PROJECT_DIR$/baseline_routing/main.py" />
         <option value="$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py" />
+        <option value="$PROJECT_DIR$/baseline_routing/tests.py" />
         <option value="$PROJECT_DIR$/baseline_routing/utils.py" />
+        <option value="$PROJECT_DIR$/baseline_routing/main.py" />
         <option value="$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1940" />
-    <option name="height" value="1050" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-9" />
+    <option name="width" value="1935" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -198,6 +210,12 @@
               <item name="3DRouting" type="b2602c69:ProjectViewProjectNode" />
               <item name="3DRouting" type="462c0819:PsiDirectoryNode" />
               <item name="baseline_routing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="3DRouting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="3DRouting" type="462c0819:PsiDirectoryNode" />
+              <item name="baseline_routing" type="462c0819:PsiDirectoryNode" />
+              <item name="log_files" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="3DRouting" type="b2602c69:ProjectViewProjectNode" />
@@ -371,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573815144778</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="multi objective fitness evaluation done with logging">
+      <created>1576001672264</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1576001672264</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -384,17 +409,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="0" width="1548" height="831" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.824611" visible="true" weight="0.16523464" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.824611" visible="true" weight="0.16545334" />
       <window_info id="Structure" order="1" sideWeight="0.17538896" side_tool="true" weight="0.086406745" />
       <window_info id="Favorites" order="2" sideWeight="0.35059172" side_tool="true" weight="0.13681428" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5545274" weight="0.42492917" />
       <window_info anchor="bottom" id="TODO" order="3" sideWeight="0.49966952" weight="0.3286119" />
-      <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.76290834" visible="true" weight="0.3243626" />
+      <window_info active="true" anchor="bottom" id="Debug" order="4" sideWeight="0.76290834" visible="true" weight="0.32761088" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4990086" weight="0.19121814" />
@@ -445,7 +470,8 @@
     <MESSAGE value="All the requirements" />
     <MESSAGE value="changed the problem instance to be 3D point and some small stuff" />
     <MESSAGE value="multi objective fitness evaluation done" />
-    <option name="LAST_COMMIT_MESSAGE" value="multi objective fitness evaluation done" />
+    <MESSAGE value="multi objective fitness evaluation done with logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="multi objective fitness evaluation done with logging" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -461,59 +487,84 @@
           <option name="timeStamp" value="185" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/baseline_routing/utils.py</url>
-          <line>1564</line>
-          <option name="timeStamp" value="575" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>492</line>
+          <line>758</line>
           <option name="timeStamp" value="631" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>614</line>
+          <line>880</line>
           <option name="timeStamp" value="653" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>420</line>
+          <line>686</line>
           <option name="timeStamp" value="659" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>404</line>
+          <line>670</line>
           <option name="timeStamp" value="669" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>380</line>
+          <line>646</line>
           <option name="timeStamp" value="670" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>379</line>
+          <line>645</line>
           <option name="timeStamp" value="671" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>271</line>
+          <line>537</line>
           <option name="timeStamp" value="696" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>223</line>
+          <line>489</line>
           <option name="timeStamp" value="751" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>210</line>
+          <line>476</line>
           <option name="timeStamp" value="757" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
-          <line>211</line>
+          <line>477</line>
           <option name="timeStamp" value="758" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/utils.py</url>
+          <line>579</line>
+          <option name="timeStamp" value="761" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
+          <line>238</line>
+          <option name="timeStamp" value="784" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
+          <line>234</line>
+          <option name="timeStamp" value="785" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/tests.py</url>
+          <line>230</line>
+          <option name="timeStamp" value="786" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/utils.py</url>
+          <line>1014</line>
+          <option name="timeStamp" value="789" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py</url>
+          <line>204</line>
+          <option name="timeStamp" value="792" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -541,15 +592,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/baseline/problems/problem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Python - 'module' object has no attribute 'randrange' - Stack Overflowhttps---stackoverflow.com-...-python-module-object-has-no-attrib..-.url" />
-    <entry file="file://$PROJECT_DIR$/3DRouting/baseline_routing/main.py" />
     <entry file="file://$PROJECT_DIR$/3dPoints.py" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/sharedVersion3DRouting/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -709,13 +751,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/solutions/solution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="9" selection-start-column="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
@@ -789,26 +824,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3600">
-          <caret line="188" selection-start-line="188" selection-end-line="188" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="207" column="40" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/baseline/main_continuous.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -848,53 +863,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="91" column="16" lean-forward="true" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/geoprocessing/_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="505" selection-start-line="505" selection-end-line="505" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/management.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
+        <state relative-caret-position="83708">
           <caret line="4925" selection-start-line="4925" selection-end-line="4925" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/ArcGIS/Pro/bin/Python/envs/arcgispro-py3/Lib/site-packages/pandas/io/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6936">
+          <caret line="423" selection-start-line="423" selection-end-line="423" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-10_22_47_43.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/search_algorithm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="71" selection-start-line="36" selection-start-column="71" selection-end-line="36" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="1179" column="19" selection-start-line="1179" selection-start-column="19" selection-end-line="1179" selection-end-column="19" />
+        <state relative-caret-position="19227">
+          <caret line="1144" selection-start-line="1144" selection-end-line="1144" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/search_algorithm.py">
+    <entry file="file://$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="36" column="71" selection-start-line="36" selection-start-column="71" selection-end-line="36" selection-end-column="71" />
+        <state relative-caret-position="1938">
+          <caret line="122" selection-start-line="122" selection-end-line="122" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/ArcGIS/Pro/Resources/ArcPy/arcpy/geoprocessing/_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8568">
+          <caret line="505" selection-start-line="505" selection-end-line="505" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-09_20_30_27.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3774">
+          <caret line="230" selection-start-line="230" selection-end-line="230" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/solutions/solution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="17" selection-end-column="78" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="209">
+          <caret line="197" column="24" selection-start-line="197" selection-start-column="24" selection-end-line="197" selection-end-column="24" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="86" column="49" selection-start-line="86" selection-start-column="49" selection-end-line="86" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
