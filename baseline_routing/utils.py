@@ -17,16 +17,10 @@ arcpy.env.outputZFlag = "Enabled"
 arcpy.CheckOutExtension('Spatial')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
-from functools import reduce
-from scipy.spatial import distance
-import pickle
-import time
-import re
-import scipy
-import pandas as pd
-from scipy import interpolate
 from scipy.special import logsumexp
 import copy
+arcpy.env.gpuId = 1
+
 
 
 
@@ -402,13 +396,12 @@ def calculate_added_noise(solution_representation, aircraft_noise_array, ground_
     # step 1: calculate noise pressure change to position at the ground. Formula of calculating sound pressure: abs(20 log (R1/R2)), R1 = 1m, R2 = current height of aircraft
     #noise_at_ground = 20 * math.log(solution_representation[:,2])
     def f(x):
-        if x==0:
-            x = 0.01
         return abs(20 * math.log(1/x,10))
+    solution_representation[:, 3] = np.where(solution_representation[:, 3]==0, 0.01, solution_representation[:, 3])
     f2  = np.vectorize(f)
     noise_vector = f2(solution_representation[:, 3])
     noise_vector = np.array(noise_vector).reshape(len(noise_vector),1)
-    print()
+    #print()
     #step 2: calculate current noise of aircraft - volume change at the ground
     noise_at_ground = aircraft_noise_array - noise_vector
     #step 3: calculate added noise. Formula for adding several noise sources: 10 log10 *  sum(for each noise source: 10 exp(Noise / 10))
@@ -416,9 +409,13 @@ def calculate_added_noise(solution_representation, aircraft_noise_array, ground_
         combined_noise = 10 * math.log((math.pow(10, x / 10))+(math.pow(10, y / 10)),10)
         return combined_noise
     vectorized_noise = np.vectorize(noise_addition)
-    v = vectorized_noise(noise_at_ground,ground_noise_array)
-    added_noise_array = abs(ground_noise_array - vectorized_noise(noise_at_ground, ground_noise_array))
+    v = vectorized_noise(noise_at_ground,ground_noise_array.reshape(ground_noise_array.shape[0],1))
+    added_noise_array = abs(ground_noise_array.reshape(ground_noise_array.shape[0],1) - v)
+    mask = np.all(np.isnan(added_noise_array), axis=1)
+    added_noise_array = added_noise_array[~mask]
     avg_added_noise = np.mean(added_noise_array)
+    if math.isnan(avg_added_noise):
+        print("nan is added noise 3")
     return avg_added_noise
 
 def captureValueZ(raster_lay, values_x, values_y):
@@ -1704,24 +1701,26 @@ def crowding_distance(population):
 
         #calculate crowding distance for first objective
         if pos_f1[0][0] == 0 or pos_f1[0][0] == len(population)-1:
-            population[i].crowding_distance[0] = int(sys.float_info.max)/4
+            population[i].crowding_distance[0] = int(sys.float_info.max)/8
         else:
             #calculate normalized crowding distance
             population[i].crowding_distance[0] = (crowding_distance_f1[pos_f1[0][0]+1][1] -crowding_distance_f1[pos_f1[0][0]-1][1])/(np.argmax(crowding_distance_f1[:, 1])-np.argmin(crowding_distance_f1[:, 1]))
 
         # calculate crowding distance for second objective
         if pos_f2[0][0] == 0 or pos_f2[0][0] == len(population)-1:
-            population[i].crowding_distance[1] = int(sys.float_info.max)/4
+            population[i].crowding_distance[1] = int(sys.float_info.max)/8
         else:
             #calculate normalized crowding distance
             population[i].crowding_distance[1] = (crowding_distance_f2[pos_f2[0][0]+1][1] -crowding_distance_f2[pos_f2[0][0]-1][1])/(np.argmax(crowding_distance_f2[:, 1])-np.argmin(crowding_distance_f2[:, 1]))
 
         # calculate crowding distance for third objective
         if pos_f3[0][0] == 0 or pos_f3[0][0] == len(population)-1:
-            population[i].crowding_distance[2] = int(sys.float_info.max)/4
+            population[i].crowding_distance[2] = int(sys.float_info.max)/8
         else:
             #calculate normalized crowding distance
             population[i].crowding_distance[2] = (crowding_distance_f3[pos_f3[0][0]+1][1] -crowding_distance_f3[pos_f3[0][0]-1][1])/(np.argmax(crowding_distance_f3[:, 1])-np.argmin(crowding_distance_f3[:, 1]))
 
     for solution in population:
         solution.crowding_distance = sum(solution.crowding_distance)
+        if math.isnan(solution.crowding_distance):
+            print("is nan")

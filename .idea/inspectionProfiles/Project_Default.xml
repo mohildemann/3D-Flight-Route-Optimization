@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="180">
+          <list size="187">
             <item index="0" class="java.lang.String" itemvalue="numba" />
             <item index="1" class="java.lang.String" itemvalue="greenlet" />
             <item index="2" class="java.lang.String" itemvalue="mlxtend" />
@@ -185,6 +185,13 @@
             <item index="177" class="java.lang.String" itemvalue="entrypoints" />
             <item index="178" class="java.lang.String" itemvalue="Jinja2" />
             <item index="179" class="java.lang.String" itemvalue="jsonschema" />
+            <item index="180" class="java.lang.String" itemvalue="jdcal" />
+            <item index="181" class="java.lang.String" itemvalue="traitlets" />
+            <item index="182" class="java.lang.String" itemvalue="terminado" />
+            <item index="183" class="java.lang.String" itemvalue="jupyter-core" />
+            <item index="184" class="java.lang.String" itemvalue="PySocks" />
+            <item index="185" class="java.lang.String" itemvalue="asn1crypto" />
+            <item index="186" class="java.lang.String" itemvalue="kiwisolver" />
           </list>
         </value>
       </option>

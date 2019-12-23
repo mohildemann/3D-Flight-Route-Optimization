@@ -14,6 +14,7 @@ arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
 import sys
 from time import gmtime, strftime
+arcpy.env.gpuId = 1
 
 class GeneticAlgorithm(RandomSearch):
     def __init__(self, problem_instance, random_state, population_size,
@@ -32,21 +33,11 @@ class GeneticAlgorithm(RandomSearch):
         uls.non_dominated_sort(self.population)
         uls.crowding_distance(self.population)
 
-    def search(self, n_iterations, report=False, log=False, dplot=None):
-        if log:
-            t = strftime("%Y-%m-%d_%H_%M_%S", gmtime())
-            lgr = logging.getLogger(t)
-            lgr.setLevel(logging.DEBUG)  # log all escalated at and above DEBUG
-            # add a file handler
-            fh = logging.FileHandler(r'baseline_routing/log_files/' + t + '.csv')
-            fh.setLevel(logging.DEBUG)
-            frmt = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(message)s')
-            fh.setFormatter(frmt)
-            lgr.addHandler(fh)
-            log_event = [self.problem_instance.__class__, id(self._random_state), __name__, self.population_size,
-                         self.selection.__name__, self.crossover.__name__, self.p_c,
-                         self.mutation.__name__, self.p_m,self.aimed_point_amount_factor ]
-            lgr.info(','.join(list(map(str, log_event))))
+    #params 3d space: x_y_limits, z_sigma, sample_point_distance
+    #params ga: p_c, p_m, population_size, selection_pressure, n_point_crossover, percentage_disturb, max_disturbance, percentage_inserted_and_deleted, group_size_mutation
+
+    def search(self, n_iterations,lgr, report=False, log=False, dplot=None):
+
 
         if dplot is not None:
             dplot.background_plot(self.problem_instance.search_space, self.problem_instance.fitness_function)
@@ -109,7 +100,7 @@ class GeneticAlgorithm(RandomSearch):
                 offsprings.pop()
 
 
-            self.population, unaccepted_solutions = self._nsga(offsprings)
+            self.population, unaccepted_solutions, non_dominated_solutions = self._nsga(offsprings)
 
             self.elite = self._get_elite()
             if report:
@@ -117,8 +108,7 @@ class GeneticAlgorithm(RandomSearch):
 
             if log:
                 log_event = [iteration,self.elite[0].PointFCName, self.elite[0].fitness[0],self.elite[1].PointFCName, self.elite[1].fitness[1],self.elite[2].PointFCName, self.elite[2].fitness[2],
-                             self.population_size, self.selection.__name__, self.crossover.__name__, self.p_c,
-                             self.mutation.__name__, self.p_m, self._phenotypic_diversity_shift(offsprings)]
+                            self._phenotypic_diversity_shift(offsprings), [sol.fitness for sol in non_dominated_solutions]]
                 lgr.info(','.join(list(map(str, log_event))))
 
 
@@ -197,15 +187,20 @@ class GeneticAlgorithm(RandomSearch):
                     try:
                         pos_to_delete_sorting_list = \
                         np.where(sorting_list[:, 0] == sorting_list[np.argmin(sorting_list[:, 0])][0])[0][0]
-                        pos_to_delete_accepted_list = \
+                        pos_to_delete_acccepted_list = \
                         np.where(accepted_solutions == sorting_list[pos_to_delete_sorting_list][1])[0][0]
                         sorting_list = np.delete(sorting_list, pos_to_delete_sorting_list, 0)
-                        accepted_solutions = np.delete(accepted_solutions, pos_to_delete_accepted_list, 0)
+                        accepted_solutions = np.delete(accepted_solutions, pos_to_delete_acccepted_list, 0)
                     except:
-                        print()
+                        print("hmm")
                 accepted_solutions = accepted_solutions.tolist()
                 break
             elif len(accepted_solutions) == self.population_size:
                 break
         unaccepted_solutions = list(set(self.population).difference(accepted_solutions))
-        return accepted_solutions, unaccepted_solutions
+        non_dominated_solutions = []
+        for sol in accepted_solutions:
+            if sol.rank == 1:
+                non_dominated_solutions.append(sol)
+
+        return accepted_solutions, unaccepted_solutions, non_dominated_solutions

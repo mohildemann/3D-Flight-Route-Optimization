@@ -9,7 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/baseline" />
       <excludeFolder url="file://$MODULE_DIR$/baseline_routing/sharedVersion3DRouting" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (3DRouting)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6 (3DRouting) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
