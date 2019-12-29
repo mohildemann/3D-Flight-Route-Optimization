@@ -19,7 +19,7 @@ arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
 from scipy.special import logsumexp
 import copy
-arcpy.env.gpuId = 1
+#arcpy.env.gpuId = 1
 
 
 

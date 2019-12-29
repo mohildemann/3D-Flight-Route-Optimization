@@ -13,7 +13,7 @@ arcpy.CheckOutExtension('Spatial')
 arcpy.CheckOutExtension('3D')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 import copy
-arcpy.env.gpuId = 1
+#arcpy.env.gpuId = 1
 
 class ThreeDSpace(Problem):
     def __init__(self, search_space, fitness_function, IDW,noisemap, x_y_limits,z_sigma,work_space,random_state,init_network, sample_point_distance,restricted_airspace,flight_constraints,geofence_point_boundary, minimization=True):

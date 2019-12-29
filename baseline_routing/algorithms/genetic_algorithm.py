@@ -14,7 +14,7 @@ arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
 import sys
 from time import gmtime, strftime
-arcpy.env.gpuId = 1
+#arcpy.env.gpuId = 1
 
 class GeneticAlgorithm(RandomSearch):
     def __init__(self, problem_instance, random_state, population_size,

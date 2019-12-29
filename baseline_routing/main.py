@@ -10,7 +10,7 @@ import sys
 import logging
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 from time import gmtime, strftime
-arcpy.env.gpuId = 1
+#arcpy.env.gpuId = 1
 # Create a Describe object from the GDB Feature Class
 #
 #desc = arcpy.Describe("D:/Master_Shareverzeichnis/3DRouting/Moritz_Bk/Bk.gdb/cost_connectivity_1_3d_points")
@@ -82,19 +82,19 @@ def main():
 
 
     # setup Genetic Algorithm
-    p_c = 0.6
-    p_m = 0.35
-    n_iterations = 30
-    population_size = 12
-    n_crossover_points = 3
+    p_c = 0.9
+    p_m = 0.6
+    n_iterations = 20
+    population_size = 10
+    n_crossover_points = 7
     selection_pressure = 0.3
     #params mutation
-    percentage_disturbed_chromosomes = p_m
-    max_disturbance_distance = 120
-    percentage_inserted_and_deleted_chromosomes = p_m
-    mutation_group_size=5
+    percentage_disturbed_chromosomes = 0.2
+    max_disturbance_distance = 80
+    percentage_inserted_and_deleted_chromosomes = 0.2
+    mutation_group_size=6
 
-    for seed in range(5):
+    for seed in range(1):
         # setup random state
         random_state = uls.get_random_state(seed)
         # execute Genetic Algorithm
