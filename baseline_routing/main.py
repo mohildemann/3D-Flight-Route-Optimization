@@ -76,22 +76,22 @@ def main():
     rs = uls.get_random_state(1)
     problem_instance = ThreeDSpace(search_space=hypercube,
                                    fitness_function=uls.multi_objective_NSGA_fitness_evaluation(),
-                                   IDW=idw, noisemap = noise_map, x_y_limits= 400, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
+                                   IDW=idw, noisemap = noise_map, x_y_limits= 350, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
                                    sample_point_distance="350 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
 
 
 
     # setup Genetic Algorithm
     p_c = 0.9
-    p_m = 0.6
-    n_iterations = 20
-    population_size = 10
+    p_m = 0.5
+    n_iterations = 35
+    population_size = 30
     n_crossover_points = 7
-    selection_pressure = 0.3
+    selection_pressure = 0.2
     #params mutation
     percentage_disturbed_chromosomes = 0.2
     max_disturbance_distance = 80
-    percentage_inserted_and_deleted_chromosomes = 0.2
+    percentage_inserted_and_deleted_chromosomes = 0.25
     mutation_group_size=6
 
     for seed in range(1):
@@ -102,7 +102,7 @@ def main():
                                population_size=population_size, selection=uls.nsga_parametrized_tournament_selection(selection_pressure),
                                crossover=uls.n_point_crossover(n_crossover_points), p_c=p_c,
                                mutation=uls.parametrized_point_mutation(percentage_disturbed_chromosomes = percentage_disturbed_chromosomes, max_disturbance_distance = max_disturbance_distance,
-                                                                        percentage_inserted_and_deleted_chromosomes = percentage_inserted_and_deleted_chromosomes, group_size=mutation_group_size), p_m=p_m, aimed_point_amount_factor = 1)
+                                                                        percentage_inserted_and_deleted_chromosomes = percentage_inserted_and_deleted_chromosomes, group_size=mutation_group_size), p_m=p_m, aimed_point_amount_factor = 2)
         ga1.initialize()
 
         #setting up the logging

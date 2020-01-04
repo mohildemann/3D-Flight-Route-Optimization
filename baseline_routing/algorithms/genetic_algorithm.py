@@ -108,7 +108,7 @@ class GeneticAlgorithm(RandomSearch):
 
             if log:
                 log_event = [iteration,self.elite[0].PointFCName, self.elite[0].fitness[0],self.elite[1].PointFCName, self.elite[1].fitness[1],self.elite[2].PointFCName, self.elite[2].fitness[2],
-                            self._phenotypic_diversity_shift(offsprings), [sol.fitness for sol in non_dominated_solutions]]
+                            self._phenotypic_diversity_shift(offsprings), [[sol.PointFCName, sol.fitness] for sol in non_dominated_solutions]]
                 lgr.info(','.join(list(map(str, log_event))))
 
 
