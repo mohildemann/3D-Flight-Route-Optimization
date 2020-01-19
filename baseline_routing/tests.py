@@ -19,6 +19,128 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate
 from mpl_toolkits.mplot3d import Axes3D
+from algorithms import genetic_algorithm
+from ThreeDSpace import flight_Constraints
+from problems.ThreeDSpace import ThreeDSpace, flight_Constraints
+env.workspace = r'C:\Users\Moritz\Desktop\Bk.gdb'
+idw = r'C:\Users\Moritz\Desktop\Bk.gdb\Idw_Refined'
+noise_map = r'C:\Users\Moritz\Desktop\Bk.gdb\Transportation_Noise'
+line_for_initialization = "example_route"
+#feature_class = r'C:\Users\Moritz\Desktop\Bk.gdb\cost_conn_zvalue_p'
+output_new_line = r'C:\Users\Moritz\Desktop\Bk.gdb\threedline'
+#geofences_restricted_airspace = "Restricted_Airspace_3D"
+geofences_restricted_airspace = r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\Restricted_Airspace_Multipar"
+geofence_point_boundary = "Restricted_Airspace_Point_Boundary_20mBuffer_10m"
+
+#set up flight constraints
+# legal constraints parameters
+maximum_speed_legal = 27.7777777778  # in m/s. 100 in km/h
+# air taxi specific parameters
+
+#This setup: (Lilium Jet, Electric VTOL Configurations Comparison 2018)
+type_aircraft = "vectored thrust eVTOL"
+weight_aircraft =  490 #(in kg)
+wing_area = 3.6 #(in m². Calculated with a wingspan of 6, Root chord 78 cm of and Tip chord of 42 cm)
+CD_from_drag_polar = (lambda CL: 0.0163 + 0.058 ** CL) #CD = Drag coefficicient, CL = Lift coefficient of plane. Obtained formula: CD = 0.0163 + 0.058 * CL²
+maximum_speed_air_taxi = 70  # (in m/s, 252 in km/h)
+acceleration_speed = 2  # (in m/s²)
+acceleration_energy = 187  # (in kW)
+deceleration_speed = -2  # (in m/s²)
+deceleration_energy = 187  # (in kW)
+minimal_cruise_energy = 28 # (in kW at speed with perfect lift/drag ratio)
+take_off_and_landing_energy = 187
+hover_energy = 187 # (in kW)
+noise_pressure_acceleration = 100
+noise_pressure_deceleration = 100
+noise_at_cruise = 100
+noise_at_hover = 100
+#
+# # This setup: (Ehang, Multicoptor Configurations Comparison 2018)
+# type_aircraft = "multicoptor"
+# weight_aircraft =  260 #(in kg)
+# wing_area = 0 #(in m². Calculated with a wingspan of 6, Root chord 78 cm of and Tip chord of 42 cm)
+# CD_from_drag_polar = None #CD = Drag coefficicient, CL = Lift coefficient of plane. Obtained formula: CD = 0.0163 + 0.058 * CL²
+# maximum_speed_air_taxi = 27.777  # (in m/s, 252 in km/h)
+# acceleration_speed = 2  # (in m/s²)
+# acceleration_energy = 42.1  # (in kW)
+# deceleration_speed = -2  # (in m/s²)
+# deceleration_energy = 42.1  # (in kW)
+# minimal_cruise_energy = 42.1 # (in kW at speed with perfect lift/drag ratio)
+# take_off_and_landing_energy = 42.1
+# hover_energy = 42.1 # (in kW)
+# noise_pressure_acceleration = 100
+# noise_pressure_deceleration = 100
+# noise_at_cruise = 100
+# noise_at_hover = 100
+
+
+
+# flight comfort constraint
+maximum_angular_speed = 1  # (in radian/second)
+#environmental depending settings
+air_density = 1.225 #(in kg/m³) standard air pressure
+speed_of_sound = 343 # in m/s, at 20 Degrees Celsius
+gravity = 9.81 # in m/s²
+
+flight_constraints = flight_Constraints(type_aircraft, weight_aircraft, wing_area, CD_from_drag_polar, maximum_speed_legal, maximum_speed_air_taxi, acceleration_speed, acceleration_energy, deceleration_speed, deceleration_energy,
+                                        minimal_cruise_energy, take_off_and_landing_energy, hover_energy, noise_pressure_acceleration, noise_pressure_deceleration,noise_at_cruise, noise_at_hover, maximum_angular_speed,air_density,speed_of_sound,gravity)
+
+
+
+#np.savetxt(r'D:\Master_Shareverzeichnis\3DRouting\Moritz_Bk\xyz_np.txt', init_population,fmt='%f', delimiter=';')
+#init_population = np.loadtxt(r'D:\Master_Shareverzeichnis\3DRouting\Moritz_Bk\xyz_np.txt',delimiter=';')
+#input a column for the grid value of the IDW
+# init_population_copy_z = init_population.copy()
+# init_population_copy_z = np.hstack((init_population_copy_z,init_population_copy_z[:,[2]]))
+
+# setup problem
+#     hypercube
+dplot = uls.Dplot()
+hypercube= [(-5, 5), (-5, 5)]
+rs = uls.get_random_state(1)
+problem_instance = ThreeDSpace(search_space=hypercube,
+                               fitness_function=uls.multi_objective_NSGA_fitness_evaluation(),
+                               IDW=idw, noisemap = noise_map, x_y_limits= 350, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
+                               sample_point_distance="350 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
+solution = Solution([1,2,3])
+solution.placeholder_line = "example_route"
+solution.PointFCName = "vergleich_least_cost_dp"
+solution.placeholder_smooth_line = solution.PointFCName + "_ph_sml"
+solution.placeholder_repaired_points = solution.PointFCName + "_3d_rep"
+solution.placeholder_line_to_points = solution.PointFCName + "_ph_ltp"
+solution.placeholder_dense_points = solution.PointFCName + "_ph_dp"
+solution.placeholder_interpolated_surface = arcpy.env.workspace + "\\" + "threedpoints_1578154280__17_ph_ints"
+solution.placeholder_dense_points_min_height = solution.PointFCName + "_ph_minh"
+solution.placeholder_dense_points_interpolated = solution.PointFCName + "_ph_dpi"
+solution.placeholder_dense_points_interpolated_3d = solution.PointFCName + "_ph_3d"
+
+IDW = idw
+noisemap = noise_map
+
+arcpy.FeatureTo3DByAttribute_3d(r"D:\Master_Shareverzeichnis\1.Semester\Flighttaxi_project\MyProject15\MyProject15.gdb\Extract_vergleich_interpolated",
+                                r"D:\Master_Shareverzeichnis\1.Semester\Flighttaxi_project\MyProject15\MyProject15.gdb\Extract_vergleich_interpolated_3d", "RASTERVALU")
+
+solution.placeholder_representation = uls.point3d_fc_to_np_array(
+    r"D:\Master_Shareverzeichnis\1.Semester\Flighttaxi_project\MyProject15\MyProject15.gdb\Extract_vergleich_interpolated_3d",
+    additional_fields=["RASTERVALU", "noise"])
+
+
+
+solution.fitness= problem_instance.fitness_function(problem_instance, solution)
+
+print()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

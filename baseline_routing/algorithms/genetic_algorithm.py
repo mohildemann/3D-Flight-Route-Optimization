@@ -83,8 +83,7 @@ class GeneticAlgorithm(RandomSearch):
                     #same for seccond offspring
                     off2.LineFCName = p2.LineFCName
                     # Update the feature class according to the stored representation values of the x and y positions in the numpy array. It is necessary to give it a new name
-                    off2.PointFCName = copy_parent_population[iterator_offspring_size+1].PointFCName.split('__', 1)[
-                                           0] + "__" + str(iteration)
+                    off2.PointFCName = copy_parent_population[iterator_offspring_size+1].PointFCName.split('__', 1)[0] + "__" + str(iteration)
                     #off2.representation = uls.equalize_and_repair_representation_and_fc(off2, self.problem_instance.IDW, self.problem_instance.endpoints, 3,self.problem_instance.restricted_airspace)
                     #off2 = uls.check_synchronization(off2)
                     #off2.representation = np.hstack([off2.representation, uls.calculateSlopes_eucDist_bAngle(off2.PointFCName)])

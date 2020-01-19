@@ -1,1 +1,0 @@
-2019-12-29 20:16:18,560,2019-12-29_19_16_18,INFO,rs,1742975168,__main__,population_size,30,x_y_limits,400,z_sigma,5,sample_point_distance,350 Meters,selection_pressure,0.3,pc,0.9,pm,0.5,aimed_point_factor,1,n_crossover,7,mutation_max_disturbance_distance,80,mutation_group_size,6,percentage_inserted_and_deleted,0.25,percentage_disturbed,0.2

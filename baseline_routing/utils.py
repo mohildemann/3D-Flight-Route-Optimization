@@ -550,14 +550,17 @@ def calculate_speed_and_energy_consumption(flight_points_x_y_z_maxv, flight_cons
         elif flight_points_x_y_z_maxv[i+1][4] == array_current_velocity[-1] and flight_points_x_y_z_maxv[i+1][4] == np.amax(flight_points_x_y_z_maxv[:,4]):
             array_current_velocity.append(array_current_velocity[-1])
             #fly at current speed
-            angle_of_climb = calc_angle_of_climb(flight_points_x_y_z_maxv[i], flight_points_x_y_z_maxv[i+1])
-            try:
-                energy = flight_constraints.calculate_required_energy_at_level_speed(angle_of_climb,array_current_velocity[-1])
-                if energy > flight_constraints.hover_energy:
-                    energy = flight_constraints.hover_energy
-            except:
-                angle = angle_of_climb
-                vel = array_current_velocity[-1]
+            if flight_constraints.type_aircraft == "multicoptor":
+                energy = flight_constraints.hover_energy
+            else:
+                angle_of_climb = calc_angle_of_climb(flight_points_x_y_z_maxv[i], flight_points_x_y_z_maxv[i+1])
+                try:
+                    energy = flight_constraints.calculate_required_energy_at_level_speed(angle_of_climb,array_current_velocity[-1])
+                    if energy > flight_constraints.hover_energy:
+                        energy = flight_constraints.hover_energy
+                except:
+                    angle = angle_of_climb
+                    vel = array_current_velocity[-1]
             time = distance / array_current_velocity[-1]
             energy_consumed_in_kWh = energy * (time/3600)
             array_current_energy_consumption.append(energy_consumed_in_kWh)
@@ -701,7 +704,7 @@ def reorder_points(solution_fc, solution_repr,endpoints, searchradius):
     x_y_cols_int = solution_repr[:, [1,2]].astype(int)
     result = np.where(
         (x_y_cols_int[:,0] == int(endpoints[0][0])) & (x_y_cols_int[:,1] ==int(endpoints[0][1])))
-    if isinstance(result, list):
+    if isinstance(result, tuple):
         result = result[0][0]
     first_point =solution_repr[result]
     rank_id = 1
@@ -1353,7 +1356,6 @@ def parametrized_point_mutation(percentage_disturbed_chromosomes,max_disturbance
     def ball_mutation(solution, random_state):
         print(" repr before mutation"+str(solution.representation.shape))
         number_to_delete_and_insert = int(float(percentage_inserted_and_deleted_chromosomes * solution.representation.shape[0]))
-
         def disturbance():
             for i in range(solution.representation.shape[0]):
                 # Disturb all points except starting and destination point
@@ -1485,6 +1487,7 @@ def parametrized_point_mutation(percentage_disturbed_chromosomes,max_disturbance
         if number_to_delete_and_insert > 0:
             solution = deletion(number_to_delete_and_insert)
         solution = group_disturbance(group_size)
+        #solution = disturbance()
         if number_to_delete_and_insert > 0:
             solution = insertion(number_to_delete_and_insert)
         return solution.representation
