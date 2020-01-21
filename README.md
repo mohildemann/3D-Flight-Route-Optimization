@@ -12,6 +12,7 @@ Running the optimization:
 1. Define, which aircraft you want to use. Currently you can use the flight characteristics of the Lilium Jet 5-seater (aircraft = "Lilium") or to the Ehang 184 (aircraft = "EHANG") in main.py
 2. Define the parameters that you want to use in main.py
 3. Define how often you want to run the loop in the main.py at location "for seed in range(1):"
+4. Run the main and do not open ArcGIS Pro until optimization has finished. Otherwise you can lock the Geodatabase in use.
 
 Getting the results:
 1. The logged data that contain the fitness values are stored in the directory "LogFiles". The runs from you contain "new" in their names.
