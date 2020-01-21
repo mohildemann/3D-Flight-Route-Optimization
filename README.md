@@ -6,7 +6,7 @@ Requirements:
 2. Set up your Python environment: You need Python 3.68 (Comes with ArcGIS Pro) 
 3. Use the environment of ArcGIS Pro to run the main.py. For example, the environment for my installation is: "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe"
 4. Download the Geodatabase "OptimizationInputs"
-5. In init.py, set arcpy.env.workspace = r'D:\Master_Shareverzeichnis\1.Semester\Flighttaxi_project\MyProject15\OptimizationInputs.gdb' to the path where you stored the downloaded Geodatabase
+5. In init.py, set arcpy.env.workspace = r'...\OptimizationInputs.gdb' to the path where you stored the downloaded Geodatabase
 
 Running the optimization:
 1. Define, which aircraft you want to use. Currently you can use the flight characteristics of the Lilium Jet 5-seater (aircraft = "Lilium") or to the Ehang 184 (aircraft = "EHANG") in main.py
