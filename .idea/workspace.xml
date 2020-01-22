@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f4af438c-4c04-46a4-8f83-3d6a896a970e" name="Default Changelist" comment="" />
+    <list default="true" id="f4af438c-4c04-46a4-8f83-3d6a896a970e" name="Default Changelist" comment="Upload the input data">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="411">
-              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+              <caret line="160" selection-start-line="160" selection-end-line="160" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -185,7 +187,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-433" />
     <option name="y" value="327" />
     <option name="width" value="1930" />
@@ -438,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579689359978</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Upload the input data">
+      <created>1579689878484</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1579689878484</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -451,8 +460,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.824611" visible="true" weight="0.16391276" />
       <window_info id="Structure" order="1" sideWeight="0.17538896" side_tool="true" weight="0.086406745" />
@@ -497,7 +505,8 @@
     <MESSAGE value="multi objective fitness evaluation done with logging 2" />
     <MESSAGE value="Final version" />
     <MESSAGE value="Final version for publishing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Final version for publishing" />
+    <MESSAGE value="Upload the input data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload the input data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1183,7 +1192,7 @@
     <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="411">
-          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+          <caret line="160" selection-start-line="160" selection-end-line="160" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
