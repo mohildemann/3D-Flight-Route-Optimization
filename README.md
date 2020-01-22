@@ -5,7 +5,7 @@ Requirements:
 1. Install and get license for ArcGIS Pro (https://pro.arcgis.com/en/pro-app/get-started/install-and-sign-in-to-arcgis-pro.htm)
 2. Set up your Python environment: You need Python 3.68 (Comes with ArcGIS Pro). The libriaries that come with it are additionally listed in requirements.txt.
 3. Use the environment of ArcGIS Pro to run the main.py. For example, the environment for my installation is: "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe"
-4. Download the Geodatabase "OptimizationInputs"
+4. Download the Geodatabase "OptimizationInputs" and unzip. Preferably save the geodatabase somewhere on C:\...
 5. In init.py, set arcpy.env.workspace = r'...\OptimizationInputs.gdb' to the path where you stored the downloaded Geodatabase
 
 Running the optimization:
