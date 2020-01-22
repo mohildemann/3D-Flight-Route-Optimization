@@ -51,10 +51,10 @@ def main():
     # setup Genetic Algorithm
     p_c = 0.9
     p_m = 0.5
-    n_iterations = 15
-    population_size = 8
+    n_iterations = 10
+    population_size = 4
     n_crossover_points = 4
-    selection_pressure = 0.25
+    selection_pressure = 0.5
     #params mutation
     percentage_disturbed_chromosomes = 0.2
     max_disturbance_distance = 120
@@ -90,9 +90,6 @@ def main():
                      "percentage_disturbed", percentage_disturbed_chromosomes]
         lgr.info(','.join(list(map(str, log_event))))
         ga1.search(n_iterations=n_iterations,lgr = lgr, report=True, log=True, dplot=None)
-
-    #params 3d space: x_y_limits, z_sigma, sample_point_distance
-    #params ga: p_c, p_m, population_size, selection_pressure, n_point_crossover, percentage_disturb, max_disturbance, percentage_inserted_and_deleted, group_size_mutation
 
 
 if __name__ == '__main__':
