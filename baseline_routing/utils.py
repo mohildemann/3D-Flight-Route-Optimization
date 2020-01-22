@@ -3,28 +3,18 @@ import arcpy
 import math
 from math import sqrt
 import sys
-from matplotlib import cm
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from functools import reduce
-import random
 import scipy.stats as stats
 import datetime
 from arcpy import env
 from arcpy.sa import *
-arcpy.env.workspace = r'C:\Users\Moritz\Desktop\Bk.gdb'
 arcpy.env.outputZFlag = "Enabled"
 arcpy.CheckOutExtension('Spatial')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
 from scipy.special import logsumexp
-import copy
-#arcpy.env.gpuId = 1
-
-
-
-
-
+import init
+arcpy.env.workspace = init.arcpy.env.workspace
 
 ##General tools
 def unique_rows(a):
@@ -52,7 +42,7 @@ def get_random_state(seed):
 
 def check_fields_x_y_z_gridz(solution, IDW):
     if solution.representation.shape[1]<5:
-        output_z_vals = r'C:\Users\Moritz\Desktop\Bk.gdb\zvals'
+        output_z_vals = arcpy.env.workspace+"\\zvals"
         solution = check_synchronization(solution)
         extractValuesRaster(solution.PointFCName, IDW, output_z_vals)
         grid_z_array = arcpy.da.FeatureClassToNumPyArray(output_z_vals, "RASTERVALU")
@@ -62,9 +52,9 @@ def check_fields_x_y_z_gridz(solution, IDW):
 
 def random_pointmove_in_boundary(solution_fc,IDW, random_state, x_y_limit, sigma):
     #memory for xy
-    output_xy_vals = r'C:\Users\Moritz\Desktop\Bk.gdb\output_xy_vals'
+    output_xy_vals = arcpy.env.workspace+"\\output_xy_vals"
     #memory for z
-    output_z_vals = r'C:\Users\Moritz\Desktop\Bk.gdb\zvals'
+    output_z_vals = arcpy.env.workspace+"\\zvals"
     infc = arcpy.GetParameterAsText(0)
     #D = arcpy.Describe(solution)
     fields =  ["OID@", "SHAPE@X","SHAPE@Y","SHAPE@Z","grid_z"]
@@ -112,18 +102,13 @@ def random_pointmove_in_boundary(solution_fc,IDW, random_state, x_y_limit, sigma
                 row[0], row[1], row[2], row[3], row[4] = numpy_p[i][0],numpy_p[i][1],numpy_p[i][2],numpy_p[i][3],numpy_p[i][4]
                 cursor.updateRow(row)
                 i= i+1
-    #calculate slopes
-    #slopes_dist_ba =calculateSlopes_eucDist_bAngle(solution_fc)
-    #add slopes to np array
-    #numpy_p=np.concatenate((numpy_p, slopes_dist_ba), axis=1)
-    #numpy columns  ='ID','X', 'Y', 'Z', 'grid_z','slope', eucl distance and bending angle
     return numpy_p
 
 def check_synchronization(solution):
     result_count = arcpy.GetCount_management(solution.PointFCName)
     count_P = int(result_count.getOutput(0))
     if solution.representation.shape[0] != count_P:
-        print("FC does not fit thre solution's representation. Pointcount: " + str(count_P) + ", repr_length: " + str(solution.representation.shape[0]))
+        #print("FC does not fit thre solution's representation. Pointcount: " + str(count_P) + ", repr_length: " + str(solution.representation.shape[0]))
         solution.representation, indices = remove_duplicate_points(solution.representation[:, 1:3], solution.representation)
         remove_points_from_pointfc(solution.PointFCName, indices)
         fields = ["OID@", "SHAPE@X", "SHAPE@Y", "SHAPE@Z"]
@@ -136,7 +121,7 @@ def check_synchronization(solution):
     return solution
 
 def equalize_and_repair_representation_and_fc(solution,IDW,endpoints,sigma, geofences_restricted_airspace, geofence_point_boundary):
-    output_xy_vals = r'C:\Users\Moritz\Desktop\Bk.gdb\output_xy_vals'
+    output_xy_vals = arcpy.env.workspace+"\\output_xy_vals"
     if arcpy.Exists(output_xy_vals):
         arcpy.Delete_management(output_xy_vals)
     solution.representation = check_endpoints(solution.representation, endpoints)
@@ -187,8 +172,8 @@ def equalize_and_repair_representation_and_fc(solution,IDW,endpoints,sigma, geof
             i = i + 1
     result_count = arcpy.GetCount_management(solution.PointFCName)
     count_P = int(result_count.getOutput(0))
-    if solution.representation.shape[0] != count_P:
-        print("FC does not fit thre solution's representation. Pointcount: " + str(count_P) + ", repr_length: "+ str(solution.representation.shape[0]) )
+    #if solution.representation.shape[0] != count_P:
+        #print("FC does not fit thre solution's representation. Pointcount: " + str(count_P) + ", repr_length: "+ str(solution.representation.shape[0]) )
     return solution.representation
 
 def check_endpoints(solution_representation, endpoints):
@@ -356,7 +341,7 @@ def repair_points(nr_repairtrials,points,idw,random_state):
                 #print("Point repaired")
         if j>= nr_repairtrials:
             points_to_delete.append(point)
-            print("Point needs to be deleted")
+            #print("Point needs to be deleted")
     if len(repaired_points)==len(points):
         valid = True
     else:
@@ -414,8 +399,8 @@ def calculate_added_noise(solution_representation, aircraft_noise_array, ground_
     mask = np.all(np.isnan(added_noise_array), axis=1)
     added_noise_array = added_noise_array[~mask]
     avg_added_noise = np.mean(added_noise_array)
-    if math.isnan(avg_added_noise):
-        print("nan is added noise 3")
+    #if math.isnan(avg_added_noise):
+        #print("nan is added noise 3")
     return avg_added_noise
 
 def captureValueZ(raster_lay, values_x, values_y):
@@ -730,11 +715,11 @@ def reorder_points(solution_fc, solution_repr,endpoints, searchradius):
             else:
                 rank_id += 1
         counter = counter + 1
-        if counter >= (solution_repr.shape[0]*10):
+        if counter >= (solution_repr.shape[0]*5):
             solution_repr = ordered_list
-            print("Reorder didnt work")
-            createFCFromPoints(ordered_list[:, 1].tolist(), ordered_list[:, 2].tolist(),
-                               ordered_list[:, 3].tolist(), "threedptest")
+            #print("Reorder didnt work")
+            # createFCFromPoints(ordered_list[:, 1].tolist(), ordered_list[:, 2].tolist(),
+            #                    ordered_list[:, 3].tolist(), "threedptest")
             reorder_is_valid = False
             break
     if int(endpoints[-1][0]) in ordered_list[:,1].astype(int) and int(endpoints[-1][1]) in ordered_list[:,2].astype(int):
@@ -744,7 +729,7 @@ def reorder_points(solution_fc, solution_repr,endpoints, searchradius):
             arcpy.Delete_management(solution_fc)
         createFCFromPoints(solution_repr[:,1].tolist(), solution_repr[:,2].tolist(), solution_repr[:,3].tolist(), solution_fc)
     else:
-        print("something went wrong with reordering. Endpoint not included")
+        #print("something went wrong with reordering. Endpoint not included")
         reorder_is_valid = False
     return solution_repr, reorder_is_valid
 
@@ -764,7 +749,7 @@ def select_points_in_restricted_airspace(flightpath_points, geofences_restricted
     Selection = arcpy.SelectLayerByLocation_management(flightpath_points, "within",
                                                        geofences_restricted_airspace,None, "NEW_SELECTION", "NOT_INVERT")
     matchcount = int(arcpy.GetCount_management(Selection)[0])
-    print(matchcount)
+    #print(matchcount)
     return Selection, matchcount
 
 def move_points_out_of_restrcited_airspace(points_in_restricted_airspace,flightpaths_points,flightpath_numpy_representation, geofence_point_boundary):
@@ -822,109 +807,6 @@ def repairPointsInRestrictedAirspace(flightpath_points, flightpath_numpy_represe
     new_representation = move_points_out_of_restrcited_airspace(flightpaths_points_in_restricted_airspace,flightpath_points,flightpath_numpy_representation, geofence_point_boundary)
     arcpy.management.SelectLayerByAttribute(flightpath_points, "CLEAR_SELECTION")
     return new_representation
-
-def repairLinesInRestrictedAirspace(flightpath_line, flightpath_points,flightpath_numpy_representation, geofences_restricted_airspace):
-    arcpy.analysis.Intersect([flightpath_line,geofences_restricted_airspace], flightpath_points+"intP","ALL", None, "POINT")
-    fields = ["OBJECTID", "SHAPE@X", "SHAPE@Y"]
-    #explode multi point to single point
-    arcpy.MultipartToSinglepart_management( flightpath_points+"intP", flightpath_points+"sintP")
-    _counter = 0
-    new_coordinates = []
-    with arcpy.da.SearchCursor(
-            flightpath_points+"sintP",
-            fields) as cursor:
-        for row in cursor:
-            new_coordinates.append([row[0], row[1], row[2]])
-    new_coordinates = np.array(new_coordinates)
-    geofence_point_boundary = "Geofence_Points_For_Relocation_10m"
-    #loop in stepsize 2: one is the first point before geofence intersection, one the point at the end of the intersection
-    for i in range(0, len(new_coordinates - 2), 2):
-        _counter += 1
-        createRectangleBetweenPoints(new_coordinates[i][1:], new_coordinates[i + 1][1:],flightpath_points+"rect_"+str(_counter))
-        pol_boundary_to_points(flightpath_points + "rect_" + str(_counter),
-                               flightpath_points + "bound_p_" + str(_counter), 10)
-        #calculate distance of the two points building the rectangle:
-        dist = math.sqrt(pow((new_coordinates[i][1] - new_coordinates[i+1][1]), 2)
-            + pow((new_coordinates[i][2] - new_coordinates[i+1][2]), 2))
-        #calculate max. possible distance the point can be away from the border
-        max_possible_dist = math.sqrt(pow(dist,2) + pow(dist/2,2))
-        #missing 1: intersect with geofence
-        arcpy.analysis.Intersect("threedpoints_1575473371_ph_3drect_0 #;Restricted_Airspace #",
-                                 r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\t_3", "ALL", None,
-                                 "INPUT")
-
-        #missing 2: multipart to Singlepart:
-        arcpy.management.MultipartToSinglepart("t_3_PolToLine",
-                                               r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\t_3__MultipartToSin")
-
-        #missing 3: split line at point
-        arcpy.management.SplitLineAtPoint("t_3__MultipartToSin", "intersection_singlepoints3", r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\t_3__MultipartToSin_SplitLin", "20 Meters")
-
-        #missing 4: check which line of the splitted ones connects to the points used for creating the rectangle
-        #generate near table
-        arcpy.analysis.GenerateNearTable("mega_single_points", "t_3__MultipartToSin_SplitLin",
-                                         r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\Geofence_Points_For_Reloca2",
-                                         "50 Meters", "NO_LOCATION", "NO_ANGLE", "ALL", None, "PLANAR")
-        #calculate which NEAR_FID has the smalles average NEAR_DIST
-
-        #missing 5: split points at lines
-
-        #missing 6: move to point boundary
-
-        pol_boundary_to_points(flightpath_points+"rect_"+str(_counter),flightpath_points+ "bound_p_"+str(_counter), 10)
-        select_points_at_geofence_boundary(flightpath_points+"bound_p_"+str(_counter), geofences_restricted_airspace, flightpath_points+"rep_p_"+str(_counter))
-        update_coordinates = []
-        arcpy.analysis.Near(flightpath_points+"rep_p_"+str(_counter), geofence_point_boundary, str(int(max_possible_dist))+ " Meters", "LOCATION",
-                            "NO_ANGLE", "PLANAR")
-        fields = ["OBJECTID", "NEAR_X", "NEAR_Y", "NEAR_FID"]
-        fields_point_boundary = ["OBJECTID", "grid_z", "noise"]
-        with arcpy.da.SearchCursor(flightpath_points+"rep_p_"+str(_counter), fields) as cursor:
-            for row in cursor:
-                # get the grid_z and noise from the boundary points
-                with arcpy.da.SearchCursor(geofence_point_boundary, fields_point_boundary) as cursor2:
-                    for row2 in cursor2:
-                        if row2[0] == row[3]:
-                            #row[0] = id, row[1] = x, row[2] = y of closest borderpoint
-                            # row2[1] = grid_z, row2[2] = noise
-                            update_coordinates.append([row[0], row[1], row[2],row2[1],row2[2]])
-
-
-
-        update_coordinates = np.array(update_coordinates).reshape(len(update_coordinates), 5)
-        update_coordinates, indices = remove_duplicate_points(update_coordinates[:,1:], update_coordinates)
-        fields = ["OBJECTID", "SHAPE@X", "SHAPE@Y"]
-        #the following loop updates the points to the closest point of the geofence boundary
-        with arcpy.da.UpdateCursor(flightpath_points+"rep_p_"+str(_counter), fields) as cursor:
-            # get ready to update each row
-            to_delete1 = []
-            for row in cursor:
-                #delete points that are not within specified minimum range
-                for i in range(len(update_coordinates)):
-                    if row[0] == update_coordinates[i][0]:
-                        # if the values in the near table are -1 in nearx and neary position, then there was no near point in the specified near distance.
-                        # in this case, the point can be deleted
-                        if update_coordinates[i][1] == -1 or update_coordinates[i][2] == -1:
-                            cursor.deleteRow()
-                            del_pos1 = np.where(update_coordinates == row[0])
-                            del_pos1 = del_pos1[0][0]
-                            to_delete1.append(del_pos1)
-                update_coordinates = np.delete(update_coordinates, to_delete1, axis=0)
-
-
-        #insert the points into the shapefile (not the placeholder numpy representation)
-        fields = ["SHAPE@X", "SHAPE@Y", "SHAPE@Z", "grid_z","int_z", "noise"]
-        cursor = arcpy.da.InsertCursor(flightpath_points , fields)
-        max_index = np.max(update_coordinates[:,0])
-        for i in range(update_coordinates.shape[0]):
-            #insert in point fc
-            cursor.insertRow((update_coordinates[i][1],update_coordinates[i][2],update_coordinates[i][3],update_coordinates[i][3],update_coordinates[i][3], update_coordinates[i][4]))
-            flightpath_numpy_representation = np.insert(flightpath_numpy_representation, int(update_coordinates[i][0]),[update_coordinates[i][0]+i,update_coordinates[i][1],update_coordinates[i][2],update_coordinates[i][3],update_coordinates[i][3], update_coordinates[i][4]], axis=0)
-        # Delete cursor object
-        del cursor
-        #reindex in order to have unique ids
-        flightpath_numpy_representation[:, 0] = np.array([i + 1 for i in range(flightpath_numpy_representation.shape[0])])
-    return flightpath_numpy_representation
-
 
 def pol_boundary_to_points(fc_in, fc_out, interval):
     pnts = []
@@ -1039,7 +921,7 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
                 (array_point_boundary[:,0] == array_other_direction[-1][0])
                 & (np.in1d(array_point_boundary[:, 1], array_other_direction[:, 0]) == False)
                 & (np.in1d(array_point_boundary[:, 1], array_first_direction[:, 0]) == False)
-                )
+            )
             if len(result_other_direction[0]) >= 1:
                 # look for the wanted id in the solution.representation and add it to the ordered list
                 value_to_append_other_direction = array_point_boundary[int(result_other_direction[0][0]), [1, 2, 3]]
@@ -1057,7 +939,7 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
     # explode multi point to single point
     arcpy.MultipartToSinglepart_management(r"memory\intL", r"memory\sintL")
     arcpy.management.FeatureVerticesToPoints(r"memory\sintL",
-                                            r"memory\sintP",
+                                             r"memory\sintP",
                                              "BOTH_ENDS")
     _counter = 0
     new_coordinates = []
@@ -1086,14 +968,14 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
     for i in range(0, len(new_coordinates - 2), 2):
         _counter += 1
         #createRectangleBetweenPoints(new_coordinates[i][1:], new_coordinates[i + 1][1:],
-                                     #r"memory\rect_" + str(_counter))
+        #r"memory\rect_" + str(_counter))
         Selected_Intersection_points = arcpy.SelectLayerByAttribute_management(r"memory\sintP", "NEW_SELECTION",
-                                                '"OBJECTID" IN ({0})'.format(', '.join(map(str, [i+1, i+2]))))
+                                                                               '"OBJECTID" IN ({0})'.format(', '.join(map(str, [i+1, i+2]))))
         # arcpy.CopyFeatures_management(Selected_Intersection_points,
         #                               r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testintpoints"+str(_counter))
         matchcountIntersection_points = int(arcpy.GetCount_management(Selected_Intersection_points)[0])
         Selected_geofences = arcpy.management.SelectLayerByLocation(geofences, "WITHIN_A_DISTANCE_GEODESIC",
-                                               Selected_Intersection_points, "20 Meters", "NEW_SELECTION", "NOT_INVERT")
+                                                                    Selected_Intersection_points, "20 Meters", "NEW_SELECTION", "NOT_INVERT")
         # arcpy.CopyFeatures_management(Selected_geofences,
         #                               r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testgeofencesel" + str(
         #                                   _counter))
@@ -1121,8 +1003,8 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
             array_point_boundary = array_point_boundary[:, 2]
             array_point_boundary = array_point_boundary.astype(int)
             Selected_geofence_boundary_points = arcpy.SelectLayerByAttribute_management(geofence_point_boundary, "ADD_TO_SELECTION",
-                                                                                   '"OBJECTID" IN ({0})'.format(', '.join(
-                                                                                       map(str, array_point_boundary))))
+                                                                                        '"OBJECTID" IN ({0})'.format(', '.join(
+                                                                                            map(str, array_point_boundary))))
             #arcpy.CopyFeatures_management(Selected_geofence_boundary_points, r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testpoints")
             matchcount_boundary_points = int(arcpy.GetCount_management(Selected_geofence_boundary_points)[0])
 
@@ -1140,14 +1022,13 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
     # arcpy.SelectLayerByAttribute_management(selection_for_deletion, "CLEAR_SELECTION")
 
     extractValues_many_Rasters("selected_boundary_points",
-                                   r" {} int_z; {} noise; {} int_z1; {} grid_z;{} grid_z".format(
-                                       placeholder_interpolated_surface, noisemap,
-                                       placeholder_interpolated_surface, IDW, IDW))
+                               r" {} int_z; {} noise; {} int_z1; {} grid_z;{} grid_z".format(
+                                   placeholder_interpolated_surface, noisemap,
+                                   placeholder_interpolated_surface, IDW, IDW))
 
     arcpy.FeatureTo3DByAttribute_3d("selected_boundary_points",
                                     r"memory\selected_boundary_points_3D", "int_z")
     #arcpy.CopyFeatures_management(r"memory\selected_boundary_points_3D",
-    #r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\testgeofencesemerge")
 
     #
     arcpy.Merge_management([r"memory\start_point",r"memory\selected_boundary_points_3D", flight_path, r"memory\end_point"],
@@ -1163,92 +1044,15 @@ def line_repair(geofences,flight_path_line, flight_path, geofence_point_boundary
         output_name,
         additional_fields=["grid_z", "noise"])
 
-    #make sure first point is starting point and last point is ending point
-    # result = np.where(
-    #     (combined_3D_representation[:, 0] == endpoints[0][0]) & (combined_3D_representation[:, 1] == endpoints[0][1]))
-    # if len(result[0])>=1:
-    #     copy_first_row = combined_3D_representation[0]
-    #     combined_3D_representation[0] = combined_3D_representation[result[0][0]]
-    #     combined_3D_representation[result[0][0]] = copy_first_row
-    # else:
-    #     np.insert(combined_3D_representation, 0, [endpoints[0][0], endpoints[0][1],endpoints[0][2], endpoints[0][3], 50], axis=0)
-    # result = np.where(
-    #     (combined_3D_representation[:, 0] == endpoints[1][0]) & (combined_3D_representation[:, 1] == endpoints[1][1]))
-    # if len(result[0]) >= 1:
-    #     copy_last_row = combined_3D_representation[-1]
-    #     combined_3D_representation[-1] = combined_3D_representation[result[0][0]]
-    #     combined_3D_representation[result[0][0]] = copy_last_row
-    # else:
-    #     combined_3D_representation = np.vstack([combined_3D_representation, [endpoints[-1][0], endpoints[-1][1],endpoints[-1][2], endpoints[-1][3], 50]])
-
-
-
-    #index_column = np.array([i + 1 for i in range(combined_3D_representation.shape[0])]).reshape(combined_3D_representation.shape[0],1)
-    #combined_3D_representation = np.hstack([index_column,combined_3D_representation])
     arcpy.Delete_management("memory")
     arcpy.Delete_management("in_memory")
+    delete_old_objects_from_gdb("intL")
+    delete_old_objects_from_gdb("sintL")
+    delete_old_objects_from_gdb("sintP")
+    delete_old_objects_from_gdb("Near")
+    delete_old_objects_from_gdb("selected_boundary_points")
     arcpy.SelectLayerByAttribute_management(selection_for_deletion, "CLEAR_SELECTION")
     return combined_3D_representation
-
-
-# def repairLine(feature_Class_points, buffer_feature, new_points_line_path):
-#     new_line = r'in_memory\draft_line'
-#     arcpy.AddXY_management(feature_Class_points)
-#     arcpy.XYToLine_management(feature_Class_points, new_line, 'POINT_X', 'POINT_Y', 'POINT_X2', 'POINT_Y2', 'GEODESIC', '#', "PROJCS['NAD_1983_StatePlane_New_York_Long_Island_FIPS_3104_Feet',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Lambert_Conformal_Conic'],PARAMETER['False_Easting',984250.0],PARAMETER['False_Northing',0.0],PARAMETER['Central_Meridian',-74.0],PARAMETER['Standard_Parallel_1',40.66666666666666],PARAMETER['Standard_Parallel_2',41.03333333333333],PARAMETER['Latitude_Of_Origin',40.16666666666666],UNIT['Foot_US',0.3048006096012192]];-120039300 -96540300 3048,00609601219;-100000 10000;-100000 10000;3,28083333333333E-03;0,001;0,001;IsHighPrecision")
-#     f_layer = "f_line"
-#     arcpy.MakeFeatureLayer_management(new_line, f_layer)
-#     arcpy.SelectLayerByLocation_management(f_layer, 'CROSSED_BY_THE_OUTLINE_OF', buffer_feature, '#', 'NEW_SELECTION', 'NOT_INVERT')
-#     a_index_touch = []
-#     with arcpy.da.SearchCursor(f_layer,["OID"]) as cursor:
-#         for row in cursor:
-#             a_index_touch.append(row[0])
-#
-#     a_z_values = []
-#     with arcpy.da.SearchCursor(feature_Class_points,["Z"]) as cursor:
-#         for row in cursor:
-#             a_z_values.append(row[0])
-#     arcpy.MakeFeatureLayer_management(new_line, f_layer)
-#     arcpy.SelectLayerByAttribute_management(f_layer, "CLEAR_SELECTION")
-#     a_new_X = []
-#     a_new_Y = []
-#     a_new_Z = []
-#     flag_repair1 = 0
-#
-#     with arcpy.da.SearchCursor(new_line, ["OID", 'POINT_X', 'POINT_Y']) as cursor:
-#         for row in cursor:
-#             if row[0] in a_index_touch:
-#
-#                 #print(str(flag_repair1) + "Altern point")
-#                 arcpy.SelectLayerByAttribute_management(f_layer, 'NEW_SELECTION', 'OID =' + str(row[0]))
-#                 out_momen_points = "in_memory\points_intersected"
-#                 arcpy.Intersect_analysis([f_layer, buffer_feature], out_momen_points, 'ALL', '#', 'POINT')
-#                 arcpy.AddXY_management(out_momen_points)
-#                 a_new_X.append(row[1])
-#                 a_new_Y.append(row[2])
-#                 a_new_Z.append(a_z_values[flag_repair1])
-#                 with arcpy.da.SearchCursor(out_momen_points, ["OID", 'POINT_X', 'POINT_Y']) as cursor:
-#                     for row_s in cursor:
-#                         a_new_X.append(row_s[1])
-#                         a_new_Y.append(row_s[2])
-#                         #a_new_Z.append(a_z_values[flag_repair1])
-#                         if flag_repair1 + 1 < len(a_z_values):
-#                             if a_z_values[flag_repair1] >= a_z_values[flag_repair1 + 1]:
-#                                 a_new_Z.append(a_z_values[flag_repair1])
-#                             else:
-#                                 a_new_Z.append(a_z_values[flag_repair1+1])
-#                         else:
-#                             a_new_Z.append(a_z_values[flag_repair1])
-#             else:
-#                 a_new_X.append(row[1])
-#                 a_new_Y.append(row[2])
-#                 a_new_Z.append(a_z_values[flag_repair1])
-#
-#             flag_repair1 +=1
-#     #new_points_calculated = r'D:\Geotech_Classes\GIS_App\Copy_Project\Moritz_Bk\Bk.gdb\draft_new_points'
-#     createFCFromPoints(a_new_X, a_new_Y, a_new_Z, new_points_line_path)
-#     #print('New points created and calculated')
-#     return new_points_line_path
-
 
 ###GA Utils
 def getKey(item):
@@ -1725,5 +1529,5 @@ def crowding_distance(population):
 
     for solution in population:
         solution.crowding_distance = sum(solution.crowding_distance)
-        if math.isnan(solution.crowding_distance):
-            print("is nan")
+        #if math.isnan(solution.crowding_distance):
+            #print("is nan")

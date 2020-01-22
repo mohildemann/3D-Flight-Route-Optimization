@@ -1,7 +1,6 @@
 import logging
 from algorithms.search_algorithm import SearchAlgorithm
 
-
 class RandomSearch(SearchAlgorithm):
     def __init__(self, problem_instance, random_state):
         SearchAlgorithm.__init__(self, problem_instance)
@@ -36,6 +35,8 @@ class RandomSearch(SearchAlgorithm):
         solution = self._generate_random_solution()
         self.problem_instance.evaluate(solution)
         while not solution.valid:
+            print("Invalid solution was produced and was not added to the initial population.")
             solution = self._generate_random_solution()
             self.problem_instance.evaluate(solution)
+        print("Initialized solution. Fc Name is: {pointfcname}".format(pointfcname=solution.PointFCName))
         return solution

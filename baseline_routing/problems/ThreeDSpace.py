@@ -3,17 +3,15 @@ import numpy as np
 from problems.problem import Problem
 from solutions.solution import Solution
 import arcpy
-import pickle
 import math
 import time
 import re
-arcpy.env.workspace = r'C:\Users\Moritz\Desktop\Bk.gdb'
+import init
+arcpy.env.workspace = init.arcpy.env.workspace
 arcpy.env.outputZFlag = "Enabled"
 arcpy.CheckOutExtension('Spatial')
 arcpy.CheckOutExtension('3D')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
-import copy
-#arcpy.env.gpuId = 1
 
 class ThreeDSpace(Problem):
     def __init__(self, search_space, fitness_function, IDW,noisemap, x_y_limits,z_sigma,work_space,random_state,init_network, sample_point_distance,restricted_airspace,flight_constraints,geofence_point_boundary, minimization=True):
@@ -75,89 +73,59 @@ class ThreeDSpace(Problem):
 
     def _validate(self, solution):
         def preparation_for_evaluation(solution):
-            try:
-                solution.representation = uls.equalize_and_repair_representation_and_fc(solution, self.IDW,
-                                                                                        self.endpoints, 3,
-                                                                                        self.restricted_airspace, self.geofence_point_boundary)
-                solution = uls.check_synchronization(solution)
-                solution.placeholder_smooth_line = solution.PointFCName + "_ph_sml"
-                solution.placeholder_repaired_points = solution.PointFCName + "_3d_rep"
-                solution.placeholder_line_to_points = solution.PointFCName + "_ph_ltp"
-                solution.placeholder_dense_points = solution.PointFCName + "_ph_dp"
-                solution.placeholder_interpolated_surface = arcpy.env.workspace + "\\" + solution.PointFCName + "_ph_ints"
-                solution.placeholder_dense_points_min_height = solution.PointFCName + "_ph_minh"
-                solution.placeholder_dense_points_interpolated = solution.PointFCName + "_ph_dpi"
-                solution.placeholder_dense_points_interpolated_3d = solution.PointFCName + "_ph_3d"
 
-                uls.pointsToLine(solution.PointFCName, solution.LineFCName)
-                uls.smoothline(solution.LineFCName, solution.placeholder_smooth_line, 100, self.restricted_airspace)
-                uls.lineToPoints(solution.placeholder_smooth_line, solution.placeholder_dense_points, 10)
-                # create field
+            solution.representation = uls.equalize_and_repair_representation_and_fc(solution, self.IDW,
+                                                                                    self.endpoints, 3,
+                                                                                    self.restricted_airspace, self.geofence_point_boundary)
+            solution = uls.check_synchronization(solution)
+            solution.placeholder_smooth_line = solution.PointFCName + "_ph_sml"
+            solution.placeholder_repaired_points = solution.PointFCName + "_3d_rep"
+            solution.placeholder_line_to_points = solution.PointFCName + "_ph_ltp"
+            solution.placeholder_dense_points = solution.PointFCName + "_ph_dp"
+            solution.placeholder_interpolated_surface = arcpy.env.workspace + "\\" + solution.PointFCName + "_ph_ints"
+            solution.placeholder_dense_points_min_height = solution.PointFCName + "_ph_minh"
+            solution.placeholder_dense_points_interpolated = solution.PointFCName + "_ph_dpi"
+            solution.placeholder_dense_points_interpolated_3d = solution.PointFCName + "_ph_3d"
 
-                uls.interpolate_points_to_spline_surface(solution.PointFCName, solution.placeholder_interpolated_surface,
-                                                         20)
-                # get interpolated height at current cell of IDW (corresponding z in solution.representation)
-                uls.extractValues_many_Rasters(solution.placeholder_dense_points,
-                                               r" {} grid_z1; {} grid_z2; {} noise; {} int_z;{} grid_z".format(
-                                                   solution.placeholder_interpolated_surface, self.noisemap,
-                                                   solution.placeholder_interpolated_surface, self.IDW, self.IDW))
-                arcpy.FeatureTo3DByAttribute_3d(solution.placeholder_dense_points,
-                                                solution.placeholder_dense_points_interpolated_3d, "int_z")
+            uls.pointsToLine(solution.PointFCName, solution.LineFCName)
+            uls.smoothline(solution.LineFCName, solution.placeholder_smooth_line, 100, self.restricted_airspace)
+            uls.lineToPoints(solution.placeholder_smooth_line, solution.placeholder_dense_points, 10)
+            # create field
 
-                solution.placeholder_representation = uls.point3d_fc_to_np_array(
-                    solution.placeholder_dense_points_interpolated_3d,
-                    additional_fields=["grid_z", "noise"])
+            uls.interpolate_points_to_spline_surface(solution.PointFCName, solution.placeholder_interpolated_surface,
+                                                     20)
+            # get interpolated height at current cell of IDW (corresponding z in solution.representation)
+            uls.extractValues_many_Rasters(solution.placeholder_dense_points,
+                                           r" {} grid_z1; {} grid_z2; {} noise; {} int_z;{} grid_z".format(
+                                               solution.placeholder_interpolated_surface, self.noisemap,
+                                               solution.placeholder_interpolated_surface, self.IDW, self.IDW))
+            arcpy.FeatureTo3DByAttribute_3d(solution.placeholder_dense_points,
+                                            solution.placeholder_dense_points_interpolated_3d, "int_z")
 
-                #index_col = np.array([i + 1 for i in range(solution.placeholder_representation.shape[0])]).reshape(
-                    #solution.placeholder_representation.shape[0], 1)
-                #solution.placeholder_representation = np.hstack([index_col, solution.placeholder_representation])
-
-                #solution.placeholder_representation = uls.repairPointsInRestrictedAirspace(solution.placeholder_dense_points_interpolated_3d, solution.placeholder_representation,
-                #                                                           self.restricted_airspace, self.geofence_point_boundary)
-                #uls.pointsToLine(solution.placeholder_dense_points_interpolated_3d,solution.placeholder_repaired_line)
-                solution.placeholder_representation = uls.line_repair(self.restricted_airspace,solution.placeholder_smooth_line ,
+            solution.placeholder_representation = uls.point3d_fc_to_np_array(
                 solution.placeholder_dense_points_interpolated_3d,
-                self.geofence_point_boundary,
-                placeholder_interpolated_surface= solution.placeholder_interpolated_surface,
-                noisemap= self.noisemap,
-                IDW=self.IDW,
-                endpoints = self.endpoints,
-                output_name=solution.placeholder_repaired_points)
+                additional_fields=["grid_z", "noise"])
+            solution.placeholder_representation = uls.line_repair(self.restricted_airspace,solution.placeholder_smooth_line ,
+            solution.placeholder_dense_points_interpolated_3d,
+            self.geofence_point_boundary,
+            placeholder_interpolated_surface= solution.placeholder_interpolated_surface,
+            noisemap= self.noisemap,
+            IDW=self.IDW,
+            endpoints = self.endpoints,
+            output_name=solution.placeholder_repaired_points)
+            solution.placeholder_representation, indices = uls.remove_duplicate_points(solution.placeholder_representation[:, 1:3],
+                                                              solution.placeholder_representation)
+            uls.remove_points_from_pointfc(solution.placeholder_repaired_points, indices)
+            solution.placeholder_representation, valid_reorder = uls.reorder_points(solution.placeholder_repaired_points, solution.placeholder_representation,
+                                                     self.endpoints, searchradius=100)
+            if valid_reorder is False:
+                valid_reorder = 1
+            else:
+                valid_reorder = 0
+            return solution, valid_reorder
+            #except:
+                #return solution, 1
 
-                # uls.repairLinesInRestrictedAirspace(solution.placeholder_smooth_line,
-                #                                 solution.placeholder_dense_points_interpolated_3d,solution.placeholder_representation,
-                #                                 self.restricted_airspace)
-                # sol_test.representation = uls.reorder_points(sol_test.PointFCName, sol_test.representation, self.endpoints)
-                #solution.placeholder_representation = uls.check_endpoints(solution.placeholder_representation, self.endpoints)
-                solution.placeholder_representation, indices = uls.remove_duplicate_points(solution.placeholder_representation[:, 1:3],
-                                                                  solution.placeholder_representation)
-                uls.remove_points_from_pointfc(solution.placeholder_repaired_points, indices)
-                solution.placeholder_representation, valid_reorder = uls.reorder_points(solution.placeholder_repaired_points, solution.placeholder_representation,
-                                                         self.endpoints, searchradius=100)
-                if valid_reorder is False:
-                    valid_reorder = 1
-                else:
-                    valid_reorder = 0
-                return solution, valid_reorder
-            except:
-                return solution, 1
-
-        # valid = False
-        # total_constraint_violation = 0
-        #
-        # def validate_line_surface_intersection(line):
-        #     cv_line_intersetcs_surface = 0
-        #     # "l_int_w_IDW" output of line segments that intersect with IDW
-        #     # "p_int_w_IDW" output of point segments that intersect with IDW
-        #     arcpy.gp.Intersect3DLineWithSurface_3d (line, self.IDW, "l_int_w_IDW", "p_int_w_IDW")
-        #     amnt_points_intersected = int(arcpy.GetCount_management("p_int_w_IDW").getOutput(0))
-        #     if amnt_points_intersected == 0:
-        #         cv_line_intersetcs_surface = 0
-        #         valid = True
-        #     else:
-        #         cv_line_intersetcs_surface = 1
-        #         #uls.repair_line(line, self.IDW)
-        #     return cv_line_intersetcs_surface
 
         def validate_point_height(routepoints):
             i = 0

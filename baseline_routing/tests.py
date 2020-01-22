@@ -14,7 +14,6 @@ arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 import sys
 import utils as uls
 import math
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate

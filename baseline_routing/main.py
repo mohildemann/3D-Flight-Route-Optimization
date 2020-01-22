@@ -1,77 +1,31 @@
 import arcpy
 import utils as uls
-import numpy as np
 from problems.ThreeDSpace import ThreeDSpace, flight_Constraints
 from algorithms.genetic_algorithm import GeneticAlgorithm
 from arcpy import env
 arcpy.CheckOutExtension('Spatial')
 arcpy.env.overwriteOutput = True
-import sys
 import logging
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 from time import gmtime, strftime
-#arcpy.env.gpuId = 1
-# Create a Describe object from the GDB Feature Class
-#
-#desc = arcpy.Describe("D:/Master_Shareverzeichnis/3DRouting/Moritz_Bk/Bk.gdb/cost_connectivity_1_3d_points")
-
-# Print GDB FeatureClass properties
-#
-
+import init
+arcpy.env.workspace = init.arcpy.env.workspace
 
 def main():
-    env.workspace = r'C:\Users\Moritz\Desktop\Bk.gdb'
-    idw = r'C:\Users\Moritz\Desktop\Bk.gdb\Idw_Projected_30'
-    noise_map = r'C:\Users\Moritz\Desktop\Bk.gdb\Transportation_Noise'
-    line_for_initialization = "example_route_mutation"
-    #feature_class = r'C:\Users\Moritz\Desktop\Bk.gdb\cost_conn_zvalue_p'
-    output_new_line = r'C:\Users\Moritz\Desktop\Bk.gdb\threedline'
-    #geofences_restricted_airspace = "Restricted_Airspace_3D"
-    geofences_restricted_airspace = r"C:\Users\Moritz\Documents\ArcGIS\Projects\Testing\Testing.gdb\Restricted_Airspace_Multipar"
-    geofence_point_boundary = "Restricted_Airspace_Point_Boundary_20mBuffer_10m"
-
+    idw = arcpy.env.workspace+"\\Idw_Projected_30"
+    noise_map = arcpy.env.workspace+"\\Transportation_Noise"
+    line_for_initialization = arcpy.env.workspace+"\\example_route"
+    geofences_restricted_airspace = arcpy.env.workspace+"\\Restricted_Airspace"
+    geofence_point_boundary = arcpy.env.workspace+"\\Restricted_Airspace_Point_Boundary"
+    output_new_line = r'threedline'
     #set up flight constraints
     # legal constraints parameters
     maximum_speed_legal = 27.7777777778  # in m/s. 100 in km/h
     # air taxi specific parameters
 
-    # This setup: (Lilium Jet, Electric VTOL Configurations Comparison 2018)
-    # type_aircraft = "vectored thrust eVTOL"
-    # weight_aircraft =  490 #(in kg)
-    # wing_area = 3.6 #(in m². Calculated with a wingspan of 6, Root chord 78 cm of and Tip chord of 42 cm)
-    # CD_from_drag_polar = (lambda CL: 0.0163 + 0.058 ** CL) #CD = Drag coefficicient, CL = Lift coefficient of plane. Obtained formula: CD = 0.0163 + 0.058 * CL²
-    # maximum_speed_air_taxi = 70  # (in m/s, 252 in km/h)
-    # acceleration_speed = 2  # (in m/s²)
-    # acceleration_energy = 187  # (in kW)
-    # deceleration_speed = -2  # (in m/s²)
-    # deceleration_energy = 187  # (in kW)
-    # minimal_cruise_energy = 28 # (in kW at speed with perfect lift/drag ratio)
-    # take_off_and_landing_energy = 187
-    # hover_energy = 187 # (in kW)
-    # noise_pressure_acceleration = 100
-    # noise_pressure_deceleration = 100
-    # noise_at_cruise = 100
-    # noise_at_hover = 100
-
-    # This setup: (Ehang, Multicoptor Configurations Comparison 2018)
-    type_aircraft = "multicoptor"
-    weight_aircraft =  260 #(in kg)
-    wing_area = 0 #(in m². Calculated with a wingspan of 6, Root chord 78 cm of and Tip chord of 42 cm)
-    CD_from_drag_polar = None #CD = Drag coefficicient, CL = Lift coefficient of plane. Obtained formula: CD = 0.0163 + 0.058 * CL²
-    maximum_speed_air_taxi = 27.777  # (in m/s, 252 in km/h)
-    acceleration_speed = 2  # (in m/s²)
-    acceleration_energy = 42.1  # (in kW)
-    deceleration_speed = -2  # (in m/s²)
-    deceleration_energy = 42.1  # (in kW)
-    minimal_cruise_energy = 42.1 # (in kW at speed with perfect lift/drag ratio)
-    take_off_and_landing_energy = 42.1
-    hover_energy = 42.1 # (in kW)
-    noise_pressure_acceleration = 100
-    noise_pressure_deceleration = 100
-    noise_at_cruise = 100
-    noise_at_hover = 100
-
-
+    #for Lilium Jet flight characteristics: aircraft = "Lilium". for Ehang aircraft ="EHANG"
+    aircraft = "Lilium"
+    type_aircraft,weight_aircraft,wing_area,CD_from_drag_polar,maximum_speed_air_taxi,acceleration_speed,acceleration_energy,deceleration_speed,deceleration_energy,minimal_cruise_energy,take_off_and_landing_energy,hover_energy,noise_pressure_acceleration, noise_pressure_deceleration, noise_at_cruise, noise_at_hover = init.aircraft_specs(aircraft)
 
     # flight comfort constraint
     maximum_angular_speed = 1  # (in radian/second)
@@ -83,34 +37,31 @@ def main():
     flight_constraints = flight_Constraints(type_aircraft, weight_aircraft, wing_area, CD_from_drag_polar, maximum_speed_legal, maximum_speed_air_taxi, acceleration_speed, acceleration_energy, deceleration_speed, deceleration_energy,
                                             minimal_cruise_energy, take_off_and_landing_energy, hover_energy, noise_pressure_acceleration, noise_pressure_deceleration,noise_at_cruise, noise_at_hover, maximum_angular_speed,air_density,speed_of_sound,gravity)
 
+    #if feature classes from previous runs shall not be deleted, uncomment
     uls.delete_old_objects_from_gdb("threed")
 
-
     # setup problem
-    dplot = uls.Dplot()
     hypercube= [(-5, 5), (-5, 5)]
     rs = uls.get_random_state(1)
     problem_instance = ThreeDSpace(search_space=hypercube,
                                    fitness_function=uls.multi_objective_NSGA_fitness_evaluation(),
-                                   IDW=idw, noisemap = noise_map, x_y_limits= 150, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
-                                   sample_point_distance="200 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
-
-
+                                   IDW=idw, noisemap = noise_map, x_y_limits= 350, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
+                                   sample_point_distance="400 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
 
     # setup Genetic Algorithm
     p_c = 0.9
     p_m = 0.5
-    n_iterations = 20
-    population_size = 12
+    n_iterations = 15
+    population_size = 8
     n_crossover_points = 4
-    selection_pressure = 0.2
+    selection_pressure = 0.25
     #params mutation
     percentage_disturbed_chromosomes = 0.2
-    max_disturbance_distance = 60
+    max_disturbance_distance = 120
     percentage_inserted_and_deleted_chromosomes = 0.25
-    mutation_group_size=4
+    mutation_group_size=7
 
-    for seed in range(5,6):
+    for seed in range(1):
         # setup random state
         random_state = uls.get_random_state(seed)
         # execute Genetic Algorithm
@@ -120,13 +71,12 @@ def main():
                                mutation=uls.parametrized_point_mutation(percentage_disturbed_chromosomes = percentage_disturbed_chromosomes, max_disturbance_distance = max_disturbance_distance,
                                                                         percentage_inserted_and_deleted_chromosomes = percentage_inserted_and_deleted_chromosomes, group_size=mutation_group_size), p_m=p_m, aimed_point_amount_factor = 2)
         ga1.initialize()
-
         #setting up the logging
         t = strftime("%Y-%m-%d_%H_%M_%S", gmtime())
         lgr = logging.getLogger(t)
         lgr.setLevel(logging.DEBUG)  # log all escalated at and above DEBUG
         # add a file handler
-        fh = logging.FileHandler(r'baseline_routing/log_files/' + t + '_groupmutation.csv')
+        fh = logging.FileHandler(r'baseline_routing/log_files/' + t + '_new.csv')
         fh.setLevel(logging.DEBUG)
         frmt = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(message)s')
         fh.setFormatter(frmt)

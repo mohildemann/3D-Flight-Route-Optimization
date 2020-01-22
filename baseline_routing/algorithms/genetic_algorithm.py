@@ -7,14 +7,12 @@ import utils as uls
 import arcpy
 from arcpy import env
 from arcpy.sa import *
-arcpy.env.workspace = r'C:\Users\Moritz\Desktop\Bk.gdb'
 arcpy.env.outputZFlag = "Enabled"
 arcpy.CheckOutExtension('Spatial')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
-import sys
-from time import gmtime, strftime
-#arcpy.env.gpuId = 1
+import init
+arcpy.env.workspace = init.arcpy.env.workspace
 
 class GeneticAlgorithm(RandomSearch):
     def __init__(self, problem_instance, random_state, population_size,
@@ -33,11 +31,12 @@ class GeneticAlgorithm(RandomSearch):
         uls.non_dominated_sort(self.population)
         uls.crowding_distance(self.population)
 
+
     #params 3d space: x_y_limits, z_sigma, sample_point_distance
     #params ga: p_c, p_m, population_size, selection_pressure, n_point_crossover, percentage_disturb, max_disturbance, percentage_inserted_and_deleted, group_size_mutation
 
     def search(self, n_iterations,lgr, report=False, log=False, dplot=None):
-
+        print("Starting the optimization search...")
 
         if dplot is not None:
             dplot.background_plot(self.problem_instance.search_space, self.problem_instance.fitness_function)
@@ -146,6 +145,7 @@ class GeneticAlgorithm(RandomSearch):
 
     def _generate_random_valid_chromosomes(self):
         #s = self._generate_random_valid_solution()
+        print("Initializing {popsize} solutions. This might take some minutes.".format(popsize=self.population_size))
         chromosomes = np.array([self._generate_random_valid_solution() for _ in range(self.population_size)])
         return chromosomes
 
@@ -191,7 +191,7 @@ class GeneticAlgorithm(RandomSearch):
                         sorting_list = np.delete(sorting_list, pos_to_delete_sorting_list, 0)
                         accepted_solutions = np.delete(accepted_solutions, pos_to_delete_acccepted_list, 0)
                     except:
-                        print("hmm")
+                        p = "hmm"
                 accepted_solutions = accepted_solutions.tolist()
                 break
             elif len(accepted_solutions) == self.population_size:
