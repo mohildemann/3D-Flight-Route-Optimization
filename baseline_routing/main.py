@@ -45,21 +45,21 @@ def main():
     rs = uls.get_random_state(1)
     problem_instance = ThreeDSpace(search_space=hypercube,
                                    fitness_function=uls.multi_objective_NSGA_fitness_evaluation(),
-                                   IDW=idw, noisemap = noise_map, x_y_limits= 350, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
+                                   IDW=idw, noisemap = noise_map, x_y_limits= 900, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
                                    sample_point_distance="400 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
 
     # setup Genetic Algorithm
     p_c = 0.9
     p_m = 0.5
-    n_iterations = 10
-    population_size = 4
+    n_iterations = 25
+    population_size = 16
     n_crossover_points = 4
-    selection_pressure = 0.5
+    selection_pressure = 0.4
     #params mutation
     percentage_disturbed_chromosomes = 0.2
-    max_disturbance_distance = 120
+    max_disturbance_distance = 200
     percentage_inserted_and_deleted_chromosomes = 0.25
-    mutation_group_size=7
+    mutation_group_size=3
 
     for seed in range(1):
         # setup random state

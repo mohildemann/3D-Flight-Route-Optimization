@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4af438c-4c04-46a4-8f83-3d6a896a970e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/baseline_routing/read_outputfiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/3DRouting.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/3DRouting.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_routing/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseline_routing/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,10 +19,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/init.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1564">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="271">
+              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -28,25 +30,37 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="323">
-                <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-              </first_editor>
-              <second_editor />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-04-27_23_28_59_new.csv">
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baseline_routing/init.py">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-04-28_21_03_14_new.csv">
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/read_outputfiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+            <state relative-caret-position="330">
+              <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
               <folding>
-                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="154" column="39" lean-forward="true" selection-start-line="154" selection-start-column="39" selection-end-line="154" selection-end-column="39" />
+            <state relative-caret-position="353">
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -79,8 +93,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="734">
-              <caret line="1052" column="31" lean-forward="true" selection-start-line="1052" selection-start-column="31" selection-end-line="1052" selection-end-column="31" />
+            <state relative-caret-position="23562">
+              <caret line="1395" column="37" selection-start-line="1395" selection-start-column="37" selection-end-line="1395" selection-end-column="37" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -89,10 +103,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/baseline_routing/solutions/solution.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1972">
-              <caret line="124" selection-start-line="124" selection-end-line="124" />
+            <state relative-caret-position="1751">
+              <caret line="111" column="18" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -103,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseline_routing/problems/problem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="40" />
+            <state relative-caret-position="323">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -120,7 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>reindex</find>
       <find>hstack</find>
       <find>reorder</find>
       <find>reorde</find>
@@ -150,6 +172,7 @@
       <find>*10</find>
       <find>repair</find>
       <find>threedptest</find>
+      <find>.reshape(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -178,21 +201,22 @@
         <option value="$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_15_21_07.csv" />
         <option value="$PROJECT_DIR$/baseline_routing/log_files/2019-12-23_12_27_37.csv" />
         <option value="$PROJECT_DIR$/baseline_routing/tests.py" />
-        <option value="$PROJECT_DIR$/baseline_routing/init.py" />
         <option value="$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py" />
         <option value="$PROJECT_DIR$/baseline_routing/algorithms/random_search.py" />
         <option value="$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py" />
         <option value="$PROJECT_DIR$/baseline_routing/utils.py" />
-        <option value="$PROJECT_DIR$/baseline_routing/main.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/baseline_routing/main.py" />
+        <option value="$PROJECT_DIR$/baseline_routing/init.py" />
+        <option value="$PROJECT_DIR$/baseline_routing/read_outputfiles.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-433" />
-    <option name="y" value="327" />
+    <option name="x" value="-435" />
+    <option name="y" value="325" />
     <option name="width" value="1930" />
-    <option name="height" value="1054" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -200,7 +224,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -213,15 +236,22 @@
               <item name="3DRouting" type="462c0819:PsiDirectoryNode" />
               <item name="baseline_routing" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="3DRouting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="3DRouting" type="462c0819:PsiDirectoryNode" />
+              <item name="baseline_routing" type="462c0819:PsiDirectoryNode" />
+              <item name="log_files" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="D:/Master_Shareverzeichnis/Masterthesis/Git_3D_Routing" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -244,7 +274,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.read_outputfiles">
     <configuration name="3dPoints" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="3DRouting" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -308,6 +338,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="read_outputfiles" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="3DRouting" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Moritz\3DRouting\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/baseline_routing/read_outputfiles.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="3DRouting" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -331,6 +382,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.read_outputfiles" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.tests" />
         <item itemvalue="Python.3dPoints" />
@@ -456,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579690842875</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Readme Update">
+      <created>1579690983852</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1579690983852</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -472,23 +531,25 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.824611" visible="true" weight="0.16391276" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.824611" visible="true" weight="0.23624161" />
       <window_info id="Structure" order="1" sideWeight="0.17538896" side_tool="true" weight="0.086406745" />
       <window_info id="Favorites" order="2" sideWeight="0.35059172" side_tool="true" weight="0.13681428" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.3286119" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6959683" weight="0.3796034" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.69328856" weight="0.3796034" />
       <window_info anchor="bottom" id="TODO" order="3" sideWeight="0.49966952" weight="0.3286119" />
-      <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.75869334" weight="0.19609967" />
+      <window_info active="true" anchor="bottom" id="Debug" order="4" sideWeight="0.757047" visible="true" weight="0.19546743" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4976867" weight="0.17705382" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32827735" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.24130663" side_tool="true" visible="true" weight="0.25637394" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.24295302" side_tool="true" visible="true" weight="0.19546743" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.5194977" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="R Graphics" order="3" />
+      <window_info anchor="right" id="R Packages" order="4" />
     </layout>
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -518,7 +579,8 @@
     <MESSAGE value="Upload the input data" />
     <MESSAGE value="Upload the results of processed logging files in excel" />
     <MESSAGE value="Changed default parameters population size to 4 and number of iterations to 10. This leads to a much shorter computation time, but the resulting flight routes have a worse quality." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed default parameters population size to 4 and number of iterations to 10. This leads to a much shorter computation time, but the resulting flight routes have a worse quality." />
+    <MESSAGE value="Readme Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Readme Update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -608,6 +670,11 @@
           <line>129</line>
           <option name="timeStamp" value="853" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/baseline_routing/read_outputfiles.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="862" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -635,11 +702,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-15_18_26_47.csv" />
-    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-15_22_02_33.csv" />
-    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-09_20_30_27.csv" />
-    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-21_09_21_38.csv" />
-    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-21_09_28_46.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-21_09_35_21.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-21_09_40_45.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-21_10_17_42.csv" />
@@ -652,7 +714,6 @@
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_14_25_43.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_15_03_30.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_23_27_13.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -690,9 +751,9 @@
           <column index="32" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-25_18_57_23.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -739,12 +800,12 @@
           <column index="41" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-29_13_38_39.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-28_22_36_38.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-29_19_16_18.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-28_00_17_02.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -791,9 +852,9 @@
           <column index="41" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-26_18_28_12.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -805,19 +866,19 @@
           <column index="6" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-29_23_40_31.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state>
           <caret column="89" selection-start-column="89" selection-end-column="89" />
         </state>
       </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-04_14_51_18.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -855,9 +916,9 @@
           <column index="32" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-25_21_34_33.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -904,9 +965,9 @@
           <column index="41" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-23_12_27_37.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -959,9 +1020,9 @@
           <column index="47" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_16_13_57.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -999,9 +1060,9 @@
           <column index="32" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-22_15_21_07.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -1039,19 +1100,19 @@
           <column index="32" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-19_21_48_39.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state>
           <caret column="135" selection-start-column="135" selection-end-column="200" />
         </state>
       </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2019-12-19_09_56_34.csv">
-      <provider editor-type-id="csv-text-editor" />
       <provider selected="true" editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3">
           <column index="0" width="100" />
@@ -1074,38 +1135,39 @@
           <column index="17" width="100" />
         </state>
       </provider>
+      <provider editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-12_18_12_50_pointmutation.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-11_20_13_24_pointmutation.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-14_17_58_19_groupmutation.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-15_20_30_57_groupmutation.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-15_12_20_08_groupmutation.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-11_20_43_29_pointmutation.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="357">
           <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-13_17_34_41_groupmutation.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-01-14_00_56_05_groupmutation.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1134,6 +1196,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="58" column="42" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-04-27_12_18_35_new.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="323">
+            <caret line="19" selection-start-line="19" selection-end-line="19" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-04-27_23_28_59_new.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/random_search.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
@@ -1144,10 +1246,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23562">
+          <caret line="1395" column="37" selection-start-line="1395" selection-start-column="37" selection-end-line="1395" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/solutions/solution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/problems/ThreeDSpace.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1972">
-          <caret line="124" selection-start-line="124" selection-end-line="124" />
+        <state relative-caret-position="1751">
+          <caret line="111" column="18" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -1156,15 +1275,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/problems/problem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="40" />
+        <state relative-caret-position="323">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/init.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="271">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -1173,41 +1292,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/baseline_routing/algorithms/genetic_algorithm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="154" column="39" lean-forward="true" selection-start-line="154" selection-start-column="39" selection-end-line="154" selection-end-column="39" />
+        <state relative-caret-position="353">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/baseline_routing/log_files/2020-04-28_21_03_14_new.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseline_routing/utils.py">
+    <entry file="file://$PROJECT_DIR$/baseline_routing/read_outputfiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="734">
-          <caret line="1052" column="31" lean-forward="true" selection-start-line="1052" selection-start-column="31" selection-end-line="1052" selection-end-column="31" />
+        <state relative-caret-position="330">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="323">
-            <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
