@@ -26,5 +26,9 @@ def read_output_csv(file):
 
     return all_solutions
 
-solutions = read_output_csv(r"baseline_routing\log_files\2020-04-28_21_03_14_new.csv")
+solutions = np.array(read_output_csv(r"baseline_routing\log_files\2020-04-28_21_03_14_new.csv"))
+best_flighttime =  solutions[np.argmin(solutions[:,2].astype(float))]
+best_energy = solutions[np.argmin(solutions[:,3].astype(float))]
+best_noise = solutions[np.argmin(solutions[:,4].astype(float))]
+#best_flightime_solution = np.where(float(solutions[:,3]) == best_flighttime)
 pass
