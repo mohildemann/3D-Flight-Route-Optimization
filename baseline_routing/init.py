@@ -5,7 +5,7 @@ arcpy.env.outputZFlag = "Enabled"
 arcpy.CheckOutExtension('Spatial')
 arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(32118)
 arcpy.env.overwriteOutput = True
-arcpy.env.workspace = r'D:\Master_Shareverzeichnis\1.Semester\Flighttaxi_project\MyProject15\OptimizationInputs.gdb'
+arcpy.env.workspace = r'C:\Users\Moritz\Documents\ArcGIS\Projects\MyProject\MyProject.gdb'
 
 def aircraft_specs(aircraft):
     if aircraft == "Lilium":

@@ -12,6 +12,8 @@ import init
 arcpy.env.workspace = init.arcpy.env.workspace
 
 def main():
+
+
     idw = arcpy.env.workspace+"\\Idw_Projected_30"
     noise_map = arcpy.env.workspace+"\\Transportation_Noise"
     line_for_initialization = arcpy.env.workspace+"\\example_route"
@@ -38,7 +40,7 @@ def main():
                                             minimal_cruise_energy, take_off_and_landing_energy, hover_energy, noise_pressure_acceleration, noise_pressure_deceleration,noise_at_cruise, noise_at_hover, maximum_angular_speed,air_density,speed_of_sound,gravity)
 
     #if feature classes from previous runs shall not be deleted, uncomment
-    uls.delete_old_objects_from_gdb("threed")
+    #uls.delete_old_objects_from_gdb("threed")
 
     # setup problem
     hypercube= [(-5, 5), (-5, 5)]
@@ -47,6 +49,22 @@ def main():
                                    fitness_function=uls.multi_objective_NSGA_fitness_evaluation(),
                                    IDW=idw, noisemap = noise_map, x_y_limits= 900, z_sigma=5,work_space = env.workspace, random_state = rs, init_network=line_for_initialization,
                                    sample_point_distance="400 Meters", restricted_airspace=geofences_restricted_airspace, flight_constraints= flight_constraints, geofence_point_boundary=geofence_point_boundary)
+    #evalluate least cost path
+    # from solutions import solution
+    # import utils
+    #
+    # linefc = "least_cost_path_3d"
+    # pointfc = "least_cost_path_3d_p"
+    # zpointfc = "least_cost_path_3d_p_z"
+    # #utils.lineToPoints(linefc, pointfc, 10)
+    # #utils.extractValuesRaster(pointfc, idw, zpointfc)
+    #
+    # repr = utils.point3d_fc_to_np_array(zpointfc, additional_fields = None)
+    #
+    # least_cost_path_solution = solution.Solution(repr)
+    # least_cost_path_solution.PointFCName = pointfc
+    # least_cost_path_solution.LineFCName = linefc
+    # problem_instance.evaluate(least_cost_path_solution)
 
     # setup Genetic Algorithm
     p_c = 0.9

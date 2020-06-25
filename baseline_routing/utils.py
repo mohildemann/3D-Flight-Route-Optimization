@@ -381,7 +381,10 @@ def calculate_added_noise(solution_representation, aircraft_noise_array, ground_
     # step 1: calculate noise pressure change to position at the ground. Formula of calculating sound pressure: abs(20 log (R1/R2)), R1 = 1m, R2 = current height of aircraft
     #noise_at_ground = 20 * math.log(solution_representation[:,2])
     def f(x):
-        return abs(20 * math.log(1/x,10))
+        try:
+            return abs(20 * math.log(1/x,10))
+        except:
+            return abs(20 * math.log(1/np.finfo(np.float64).eps,10))
     solution_representation[:, 3] = np.where(solution_representation[:, 3]==0, 0.01, solution_representation[:, 3])
     f2  = np.vectorize(f)
     noise_vector = f2(solution_representation[:, 3])
